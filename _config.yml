@@ -1,0 +1,14 @@
+# Site settings
+title: hilojack
+name: hilojack
+email: 
+description: ''
+baseurl: ""
+url: "http://hilojack.com"
+username: hilojack
+
+# Build settings
+markdown: kramdown
+paginate: 10 
+paginate_path: "/p:num"
+permalink: /p/:title
