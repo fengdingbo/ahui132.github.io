@@ -8,6 +8,11 @@ description:
 
 # 正则语法
 
+## regex string
+
+    print('a\nb')
+    print(r'a\nb')
+
 ## 分组:
 
 	>>> import re
@@ -143,4 +148,3 @@ like `str.replace`
 	' HILO JACK'
 
 str.replace([list], rep) not work
-

@@ -167,11 +167,9 @@ lambda 不能显式使用return :
 
 
 # map reduce
-> http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014317852443934a86aa5bb5ea47fbbd5f35282b331335000
+http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/0014317852443934a86aa5bb5ea47fbbd5f35282b331335000
 
-Python内建了map()和reduce()函数。
-
-如果你读过Google的那篇大名鼎鼎的论文“MapReduce: Simplified Data Processing on Large Clusters”，你就能大概明白map/reduce的概念。
+Python内建了map-reduce/filter/all/any 实现函数式编程
 
 ## map
 我们先看map。map()函数接收两个参数，一个是函数，一个是Iterable，map将传入的函数依次作用到序列的每个元素，并把结果作为新的Iterator返回。
@@ -180,20 +178,29 @@ Python内建了map()和reduce()函数。
 	...     return x * x
 	...
 	>>> r = map(f, [1, 2, 3, 4, 5, 6, 7, 8, 9])
-	>>> list(r)
-	[1, 4, 9, 16, 25, 36, 49, 64, 81]
-	>>> for i in map(lambda x, y: x + y, [1, 2, 3], [4, 5, 6]): print(i)
+
+	# map 针对一个序列
+	print map(lambda x: x*2, [4, 5, 6])
+
+	# map 针对多个序列
+	print map(lambda x, y: x + y, [1, 2, 3], [4, 5, 6])
 
 map()传入的第一个参数是f，即函数对象本身。由于结果r是一个Iterator，Iterator是惰性序列，因此通过list()函数让它把整个序列都计算出来并返回一个list。
-map()作为高阶函数，事实上它把运算规则抽象了。比如，把这个list所有数字转为字符串：
 
 	>>> list(map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
 	['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
-## reduce
-reduce把一个函数作用在一个序列[x1, x2, x3, ...]上，这个函数必须接收两个参数，reduce把结果继续和序列的下一个元素做累积计算，其效果就是：
+## zip
 
-	reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)
+	>>> list(zip([4, 5, 6], [5,6,7]))
+	[(4, 5), (5, 6), (6, 7)]
+
+## reduce
+If initial is present, it is placed before the items of the sequence in the calculation
+
+    reduce(function, sequence[, initial]) -> value
+    reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates
+    ((((1+2)+3)+4)+5).
 
 比方说对一个序列求和，就可以用reduce实现：
 
@@ -223,7 +230,7 @@ reduce把一个函数作用在一个序列[x1, x2, x3, ...]上，这个函数必
 	def str2int(s):
 		return reduce(lambda x, y: x * 10 + y, map(char2num, s))
 
-# filter
+## filter
 filter 返回的也是惰性Iterator
 
 	list(filter(lambda x:x%2==0, [1,2,3]));
@@ -231,42 +238,20 @@ filter 返回的也是惰性Iterator
 	>>> list(filter(lambda x:x%2==0, range(0,10)))
 	[0, 2, 4, 6, 8]
 
-0, 2, 4, 6, 8]
+例如获取100以内的奇数：
 
-## 用filter求prime素数
+	filter(lambda n: (n%2) == 1, range(100))
+	[i for i in range(100) if i%2 == 1]
 
-计算素数的一个方法是埃氏筛法，它的算法理解起来非常简单：
 
-	首先，列出从2开始的所有自然数，构造一个序列：
-
-	2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
-
-	取序列的第一个数2，它一定是素数，然后用2把序列的2的倍数筛掉：
-
-	3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
-
-	取新序列的第一个数3，它一定是素数，然后用3把序列的3的倍数筛掉：
-
-	5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
-
-	取新序列的第一个数5，然后用5把序列的5的倍数筛掉：
-
-	7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...
-
-	不断筛下去，就可以得到所有的素数。
-
-用Python来实现这个算法，可以先构造一个从3开始的奇数序列：
+### 用filter求prime素数
+计算素数的一个方法是埃氏筛法， 用Python来实现这个算法，可以先构造一个从3开始的奇数序列：
 
 	def _odd_iter():
 		n = 1
 		while True:
 			n = n + 2
 			yield n
-
-注意这是一个生成器，并且是一个无限序列。 然后定义一个筛选函数：
-
-	def _not_divisible(n):
-		return lambda x: x % n > 0
 
 最后，定义一个生成器，不断返回下一个素数：
 
@@ -276,9 +261,7 @@ filter 返回的也是惰性Iterator
 		while True:
 			n = next(it) # 返回序列的第一个数
 			yield n
-			it = filter(_not_divisible(n), it) # 构造新序列
-
-这个生成器先返回第一个素数2，然后，利用filter()不断产生筛选后的新的序列。
+			it = filter(lambda x:x%n>0, it) # 构造新序列
 
 打印1000以内的素数:
 
@@ -288,9 +271,43 @@ filter 返回的也是惰性Iterator
 		else:
 			break
 
-## 双数生成器
+### 双数生成器
 
 	filter(lambda n:str(n)[::-1]==str(n), range(10,99))
+    11,22,33,...
+
+## all
+
+    all(iterable, /)
+        Return True if bool(x) is True for all values x in the iterable.
+
+    If the iterable is empty, return True.
+
+## any
+
+	if needle.endswith('ly') or needle.endswith('ed') or
+		needle.endswith('ing') or needle.endswith('ers'):
+		print('Is valid')
+	else:
+		print('Invalid')
+
+改成:
+
+	if any([needle.endswith(e) for e in ('ly', 'ed', 'ing', 'ers')]):
+		print('Is valid')
+	else:
+		print('Invalid')
+
+Syntax:
+
+	any([ expression(e) for e in (....)])
+	any([True, False, False]);//True
+
+列表解析:
+
+	[ expression(e) for e in (....)])
+	[ expression(e) for e in (....) if <condition>])
+
 
 # sorted
 ython内置的sorted()函数就可以对list进行排序：

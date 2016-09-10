@@ -8,6 +8,48 @@ description:
 基本类型：Undefined、Null、Boolean、Number和String
 复杂类型：由基本类型构成
 
+# "use strict";
+> ES6 modules are always in strict mode
+
+use strict参考：阮一峰 http://www.ruanyifeng.com/blog/2013/01/javascript_strict_mode.html
+
+必须写在执行语句或者函数体内的第一行
+
+1. 变量必须有var 声明
+2. 不允许用with
+3. 正常模式下eval 内的变量作用域取决于所在的作用域。strict 模式下，eval 本身是一个作用域
+4. function 下的this 是undefined, 而new 生成的obj 内的this 指向自己
+
+## 禁止删除变量
+严格模式下无法删除变量。只有configurable设置为true的对象属性，才能被删除。
+
+	"use strict";
+　　var x;
+　　delete x; // 语法错误
+　　var o = Object.create(null, {'x': {
+　　　　　　value: 1,
+　　　　　　configurable: true
+　　}});
+　　delete o.x; // 删除成功
+
+## 显式报错
+
+### 对只读变量写入
+正常模式下，对一个对象的只读属性进行赋值，不会报错，只会默默地失败。严格模式下，将报错。
+
+	"use strict";
+　　var o = {};
+　　Object.defineProperty(o, "v", { value: 1, writable: false });
+　　o.v = 2; // 报错
+
+### 重名报错
+
+	"use strict";
+　　var o = {
+　　　　p: 1,
+　　　　p: 2
+　　}; // 语法错误
+
 # Compare
 https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness
 
@@ -143,9 +185,16 @@ Object.is 与== 只有两个不同
 ## typeof
 用于判断数据类型及function, object
 
-    undefined、null、boolean、number,  string
+    undefined、boolean、number,  string
     object
     function
+
+array/null 被视为对象, 所以:
+
+    Object.prototype.toString.call( someVar ) === '[object Array]'
+    return Array.isArray(v);
+    v instanceof Array
+    null === null
 
 未声明的变量，只能执行typeof 操作
 
@@ -155,12 +204,12 @@ null 是空对象，undefind 派生自null:
 
     typeof null;//object 空对象
 
-string     
+string
 
     if (typeof myVar === 'string' || myVar instanceof String)
 
 ## via Object.prototype.toString
-用于判断对像类别
+用于判断对像类别更统一
 
 	Object.prototype.toString.call(1)
 	"[object Number]"
@@ -297,9 +346,10 @@ sort + unique
 sort()方法会直接对Array进行修改，它返回的结果仍是当前Array
 
   myData.sort(function(i,j){return i-j;}); //从小到大
-  myData.sort(function(i,j){return i<j? -1:1;}); //从小到大
+  myData.sort(function(i,j){return i<j? -1:1;}); //从小到大>
 
 # 加法
+
 有下面这样的一个加法操作.
 
     value1 + value2

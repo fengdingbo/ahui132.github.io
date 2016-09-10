@@ -62,10 +62,6 @@ Some produce infinite sequences from finite sequences:
 	'red'
 	>>> next(colors)
 	'white'
-	>>> next(colors)
-	'blue'
-	>>> next(colors)
-	'red'
 
 Some produce finite sequences from infinite sequences:
 

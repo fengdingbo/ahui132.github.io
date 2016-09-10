@@ -58,19 +58,6 @@ class bytes: ascii 不变, 其它则用16进制表示
 	ord('A'); 65
 	chr(65); 'A'
 
-## not Escape
-use  encode
-
-	>>> string = "abc\ndef"
-	>>> print (repr(string))
-	>>> 'abc\ndef'
-
-	>>> print(repr('a()'))
-	'a()'
-	>>> print(repr("\n"))
-	'\n'
-
-
 ## Access String
 like list
 
@@ -101,6 +88,11 @@ like list
 	'hilojack'.find('jack');//4
 	'hilo' in 'hilojack'
 	str.replace(needle, word, 1); //replace the first needle with word
+
+### find
+
+    str.find(substr, beg=0, end=len(string))
+        Index if found and -1 otherwise.
 
 ## pad
 zfill
@@ -144,6 +136,18 @@ long delimiter `"""` and `'''`(same): `\n` is still transfered by python
 	\v	ASCII vertical tab (VT)
 	\ooo	Character with octal value ooo
 	\xhh	Character with hex value hh
+
+#### not Escape
+use repr encode
+
+	>>> string = "abc\ndef"
+	>>> print (repr(string))
+	>>> 'abc\ndef'
+
+	>>> print(repr("\n"))
+	'\n'
+	>>> print(r"\n")
+    \n
 
 ### print
 
