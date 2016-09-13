@@ -8,6 +8,10 @@ description:
 
 pythone 一切皆对象
 
+# todo
+python 魔法
+http://pycoders-weekly-chinese.readthedocs.io/en/latest/issue6/a-guide-to-pythons-magic-methods.html
+
 # Class and Object
 
 	class MyStuff(object):
@@ -24,6 +28,28 @@ pythone 一切皆对象
 	print(MyStuff.name); # hilo
 	print(obj.name);     # hilo
 
+## static value for object
+static value 在不同的对象/类里, 是隔离的
+
+    class f(object):
+        i=1
+        def p(self):
+            print(__class__.i)
+
+    class f1(f):
+        def p(self):
+            __class__.i+=1
+            print(__class__.i)
+
+    class f2(f):
+        def p(self):
+            __class__.i+=1
+            print(__class__.i)
+    f1().p();#2
+    f1().p();#3
+    f2().p();#2
+    print(f.i);#1
+
 ## Inheritance
 
 	class Parent(object):
@@ -35,7 +61,7 @@ pythone 一切皆对象
 
 		def altered(self):
 			print "CHILD, BEFORE PARENT altered()"
-			super().altered()
+			super().altered();# or super(Child, self)
 
 	Child().altered()
 
@@ -419,7 +445,66 @@ function object
 	>>> print(type(h))
 	<class '__main__.Hello'>
 
-# metaclass 元类
+# new init
+
+
+
+
+## __new__
+__new__ 是在一个对象实例化的时候所调用的第一个方法。它的第一个参数是这个类，其他的参数是用来直接传递给 __init__ 方法。将一直按此规矩追溯至object
+
+1. 如果定义新式类时没有重新定义`__new__()`时，Python默认是调用该类的直接父类的`__new__()`方法来构造该类的实例，
+3. 不可以在`Foo.__new__`中 再调用`Foo.__new`, 会死循环, 必须是父类, 或者其它类
+4. cls 是要实例化的类
+
+```
+class inch(float):
+    def __new__(cls, arg=0.0):
+        print(cls)
+        obj = float.__new__(cls, arg*0.0254)
+        print(type(obj), obj)
+        return obj
+    def __init__(self, a):
+        print('init:', a);
+
+i=inch(2)
+print(i)
+----------
+output:
+
+    <class '__main__.inch'>
+    <class '__main__.inch'> 0.0508
+    init: 2
+    0.0508
+
+instance procedure:
+
+    obj = cls.__new__(cls, *arg, **kw):
+    obj.init(*arg, **kw)
+```
+
+new 将Foo实例, 替换成Stranger 实例
+
+    class Foo(object):
+        def __init__(self, *args, **kwargs):
+            print('Foo init')
+        def __new__(cls, *args, **kwargs):
+            print(cls)
+            obj=object.__new__(Stranger, *args, **kwargs);
+            # obj.init(*args, **kwargs)
+            print(tpye(obj))
+            return obj
+    class Stranger(object):
+        def __init__(self, *args, **kwargs):
+            print('Stranger init')
+    foo = Foo()
+
+output:
+
+    <class '__main__.Foo'> # cls 指的是Foo类
+    <class '__main__.Stranger'> # obj 指的是Stranger的 实例
+
+## metaclass 元类
 metaclass允许你创建类或者修改类。换句话说，你可以把类看成是metaclass创建出来的“实例”。
 
 metaclass，直译为元类，简单的解释就是： 先定义metaclass，就可以创建类，最后创建实例。
@@ -442,6 +527,8 @@ __new__()方法接收到的参数依次是：
 
 	class MyList(list, metaclass=ListMetaclass):
 		pass
+	class MyList(list):
+        __metaclass__=ListMetaclass
 
 测试一下MyList是否可以调用add()方法：
 
@@ -449,6 +536,13 @@ __new__()方法接收到的参数依次是：
 	>>> L.add(1)
 	>> L
 	[1]
+
+##  __del__
+`__del__` 就是析构器。它不实现语句 del x (不会翻译为 x.__del__() )。
+
+1. 它定义的是当一个对象进行垃圾回收时候的行为。
+2. 当一个对象在删除的时需要更多的清洁工作的时候此方法会很有用，比如套接字对象或者是文件对象。
+3. 注意，如果解释器退出的时候对象还存存在，就不能保证 __del__ 能够被执行
 
 # MRO, Method Resolution Order
 http://python-history.blogspot.com/2010/06/method-resolution-order.html
@@ -517,6 +611,16 @@ You'll get:
 
 	TypeError: Cannot create a consistent method resolution
 	order (MRO) for bases Second, First
+
+## static var in class
+
+    def Foo(object):
+        i=1
+    def Bar(Foo):
+        pass
+    print(Foo.i); # 1
+    print(Bar.i); # 1
+    print(Bar().i); # 1
 
 # super
 https://www.zhihu.com/question/20040039

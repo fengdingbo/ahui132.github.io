@@ -49,3 +49,12 @@ In generic, you could write a common wrap function such as wrapEventCallback
     function myFunc(evt) {
       window.alert( evt.target.myParam );
     }
+
+# dict
+js
+
+    Object.keys(obj).length === 0 && obj.constructor === Object
+
+jQuery:
+
+    jQuery.isEmptyObject({}); //

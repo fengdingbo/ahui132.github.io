@@ -160,6 +160,11 @@ single point:
         //categories: xDatas
     },
 
+### xAxis tick
+
+    xAxis: {
+        tickPixelInterval: 5
+
 ## tooltip
 
           tooltip: {

@@ -9,6 +9,7 @@ description:
 # python3
 deep:
 http://www.diveintopython3.net/
+http://py.windrunner.info/magic/magic.html
 
 # shell
 

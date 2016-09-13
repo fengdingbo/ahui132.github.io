@@ -1207,4 +1207,3 @@ web 服务器其实是基于tcp/ip 的http 协议，默认每次请求read 请�
 - 本文图文均参考[socket 编程]
 
 [socket 编程]: http://akaedu.github.io/book/ch37.html
-

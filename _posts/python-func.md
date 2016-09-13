@@ -202,26 +202,12 @@ If initial is present, it is placed before the items of the sequence in the calc
     reduce(lambda x, y: x+y, [1, 2, 3, 4, 5]) calculates
     ((((1+2)+3)+4)+5).
 
-比方说对一个序列求和，就可以用reduce实现：
+序列求和
 
 	>>> from functools import reduce
-	>>> def add(x, y):
-	...     return x + y
-	...
 	>>> reduce(add, [1, 3, 5, 7, 9])
 
 我来利用map+reduce 实现 str2int的函数就是：
-
-	from functools import reduce
-
-	def str2int(s):
-		def fn(x, y):
-			return x * 10 + y
-		def char2num(s):
-			return {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}[s]
-		return reduce(fn, map(char2num, s))
-
-还可以用lambda函数进一步简化成：
 
 	from functools import reduce
 	def char2num(s):
@@ -230,6 +216,16 @@ If initial is present, it is placed before the items of the sequence in the calc
 	def str2int(s):
 		return reduce(lambda x, y: x * 10 + y, map(char2num, s))
 
+### reduce 实现pipeling
+
+    def pipeline_func(data, fns):
+        return reduce(lambda v, f: f(v),
+                      fns,
+                      data)
+    pipeline_func(nums, [even_filter,
+                       multiply_by_three,
+                       convert_to_string])
+                       
 ## filter
 filter 返回的也是惰性Iterator
 
