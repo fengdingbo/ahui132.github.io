@@ -1,5 +1,9 @@
 # singleton
 http://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
+http://www.cnblogs.com/ifantastic/p/3175735.html
+http://py.windrunner.info/design-patterns/singleton.html
+
+https://docs.python.org/3/reference/datamodel.html#object.__new__
 
 ## via decorator
 
@@ -41,19 +45,43 @@ Sample use
 
     assert id(one) == id(two)
 
-## via baseclass
+## via baseclass.new
+via __dict__
 
     class Singleton(object):
-      _instance = None
-      def __new__(class_, *args, **kwargs):
-        if not isinstance(class_._instance, class_):
-            class_._instance = object.__new__(class_, *args, **kwargs)
-        return class_._instance
+        def __new__(cls, *args, **kwds):
+            it = cls.__dict__.get("__it__")
+            if it is not None:
+                return it
+            cls.__it__ = it = object.__new__(cls)
+            it.init(*args, **kwds)
+            return it
+    class MySingleton(Singleton):
+        def init(self):
+            print("calling single init")
+        def __init__(self):
+            print("calling __init")
 
-    class MyClass(Singleton, BaseClass):
-      pass
+    x = MySingleton()
+    y = MySingleton()
 
-## via metaclass
+via property:
+
+    class Singleton(object):
+        _instance = None
+        print(_instance); # static, excute when defined as decorate
+        def __new__(cls, *args, **kwargs):
+            if not isinstance(cls._instance, cls):
+                cls._instance = object.__new__(cls)
+            return cls._instance
+
+    class MyClass(Singleton ):
+        pass
+
+    x=MyClass(1)
+    y=MyClass(2)
+
+## via metaclass.call
 
     class Singleton(type):
         def __init__(cls, name, bases, dict):
@@ -64,8 +92,10 @@ Sample use
                 cls._instance = super(Singleton, cls).__call__(*args, **kw)
             return cls._instance
 
-    class MyClass(object):
-        __metaclass__ = Singleton
+    class MyClass(object, metaclass=Singleton):
+        pass
 
     one = MyClass()
     two = MyClass()
+    print(id(one))
+    print(id(two))

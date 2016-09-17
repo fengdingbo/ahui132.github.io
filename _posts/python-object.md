@@ -50,6 +50,16 @@ static value 在不同的对象/类里, 是隔离的
     f2().p();#2
     print(f.i);#1
 
+### static var in class
+
+    def Foo(object):
+        i=1
+    def Bar(Foo):
+        pass
+    print(Foo.i); # 1
+    print(Bar.i); # 1 via MRO
+    print(Bar().i); # 1 via MRO
+
 ## Inheritance
 
 	class Parent(object):
@@ -77,6 +87,7 @@ super inherits init
 
 1. 类属性(class attribute)
 1. 对象属性(object attribute)。
+2. 这些属性保存于`__dict__`, 各自独立保存: 子类与父类独立; 类与对象独立
 
 
 	class bird(object):
@@ -89,15 +100,15 @@ super inherits init
 
 	summer = chicken(2)
 
-	print(bird.__dict__)
-	print(chicken.__dict__)
-	print(summer.__dict__)
+	print(bird.__dict__.keys())
+	print(chicken.__dict__.keys())
+	print(summer.__dict__.keys())
 
 output:
 
-	{'__dict__': <attribute '__dict__' of 'bird' objects>, '__module__': '__main__', '__weakref__': <attribute '__weakref__' of 'bird' objects>, 'feather': True, '__doc__': None}
-	{'fly': False, '__module__': '__main__', '__doc__': None, '__init__': <function __init__ at 0x2b91db476d70>}
-	{'age': 2}
+    dict_keys(['__dict__', '__module__', '__weakref__', '__doc__', 'feather'])
+    dict_keys(['fly', '__module__', '__init__', '__doc__'])
+    dict_keys(['age'])
 
 属性访问时，是层层遍历的: `summer|chicken|bird|object`, 所以:
 
@@ -424,44 +435,57 @@ function object
 	>>> print(Weekday(1))
 	Weekday.Mon
 
-# type()
-动态语言和静态语言最大的不同，就是函数和类的定义，不是编译时定义的，而是运行时动态创建的。
-
-	class Hello(object):
-		def hello(self, name='world'):
-			print('Hello, %s.' % name)
-
-用type 创建类(like `lambda`), `class Xxx...`来定义类 其实是调用`type()函数`
-
-	>>> def fn(self, name='world'): # 先定义函数
-	...     print('Hello, %s.' % name)
-	...
-	>>> Hello = type('Hello', (object,), dict(hello=fn)) # 创建Hello class
-	>>> h = Hello()
-	>>> h.hello()
-	Hello, world.
-	>>> print(type(Hello))
-	<class 'type'>
-	>>> print(type(h))
-	<class '__main__.Hello'>
-
 # new init
 
+    class ListMetaclass(type):
+        def __init__(*args, **kw):
+            print(isinstance(args[0], ListMetaclass))
+        def __new__(cls, name, bases, attrs):
 
 
+关于类相关的static method/var执行顺序:
+
+    define:
+        decorator
+        static property
+        metaclass:
+            __new__(ListMetaclass/Singleton, name, bases, attrs)
+            __init__(Myclass, name, bases, attrs) (if return of new(cls) is instance of cls)
+                Myclass.__class__ == ListMetaclass/Singleton, type, object
+    instance:
+        non-metaclass:
+            __new__(cls, *args, **kw)
+            __init__(*args, **kw) (if return of new(cls) is instance of cls)
+        metaclass:
+            __call__(cls, *args, **kw)
 
 ## __new__
-__new__ 是在一个对象实例化的时候所调用的第一个方法。它的第一个参数是这个类，其他的参数是用来直接传递给 __init__ 方法。将一直按此规矩追溯至object
+> https://docs.python.org/3/reference/datamodel.html#object.__new__
+
+__new__ 的第一个参数是这个类:
 
 1. 如果定义新式类时没有重新定义`__new__()`时，Python默认是调用该类的直接父类的`__new__()`方法来构造该类的实例，
 3. 不可以在`Foo.__new__`中 再调用`Foo.__new`, 会死循环, 必须是父类, 或者其它类
-4. cls 是要实例化的类
+4. cls 是要实例化的类, 只决定实例化的名字
+5. If `__new__()` does not return an instance of cls, then the new instance’s `__init__()` method will not be invoked.
+
+本质如下
+
+    class.__new__(cls[, ...])
+        cls, 代表要实例化类, class 只负责提供__new__ 而且:
+            1. cls must be subtype of class;
+            2. 2. cls.__new__ and class.__new__ 形参必须相同
+    Foo(*args, **kw) 会调用 __call
+        obj = c_class.__new__(cls, *args, **kw)
+        if instanceof(obj, c_class):
+            obj.__init__(obj, *args, **kw)
+        return obj;
 
 ```
 class inch(float):
     def __new__(cls, arg=0.0):
         print(cls)
-        obj = float.__new__(cls, arg*0.0254)
+        obj = float.__new__(cls, arg*0.0254); inch is subtype of float
         print(type(obj), obj)
         return obj
     def __init__(self, a):
@@ -492,7 +516,7 @@ new 将Foo实例, 替换成Stranger 实例
             print(cls)
             obj=object.__new__(Stranger, *args, **kwargs);
             # obj.init(*args, **kwargs)
-            print(tpye(obj))
+            print(type(obj))
             return obj
     class Stranger(object):
         def __init__(self, *args, **kwargs):
@@ -504,40 +528,83 @@ output:
     <class '__main__.Foo'> # cls 指的是Foo类
     <class '__main__.Stranger'> # obj 指的是Stranger的 实例
 
+
+## type
+动态语言和静态语言最大的不同，就是函数和类的定义，不是编译时定义的，而是运行时动态创建的。
+
+	class Hello(object):
+		def hello(self, name='world'):
+			print('Hello, %s.' % name)
+
+用type 创建类(like `lambda`), `class Xxx...`来定义类 其实是调用`type()函数`
+
+	>>> def fn(self, name='world'): # 先定义函数
+	...     print('Hello, %s.' % name)
+	...
+	>>> Hello = type('Hello', (object,), dict(hello=fn)) # 创建Hello class
+            new_class = type.__new__(cls, 'class_name<优化级小于qualname>', (object), {'__qualname__': 'custom_class_name'})
+                qualname 只是别名, 不影响: isinstance(new_class, cls) == true
+	>>> h = Hello()
+	>>> h.hello()
+	Hello, world.
+	>>> print(type(Hello))
+	<class 'type'>
+	>>> print(type(h))
+	<class '__main__.Hello'>
+
+
 ## metaclass 元类
-metaclass允许你创建类或者修改类。换句话说，你可以把类看成是metaclass创建出来的“实例”。
+metaclass允许你创建类或者修改类: 先定义metaclass，就可以创建/修改类，最后创建实例。
 
-metaclass，直译为元类，简单的解释就是： 先定义metaclass，就可以创建类，最后创建实例。
-
+### metalclass.new
 我们先看一个简单的例子，这个metaclass可以给我们自定义的MyList增加一个add方法：
 
-	class ListMetaclass(type):
-		def __new__(cls, name, bases, attrs):
-			attrs['add'] = lambda self, value: self.append(value)
-			return type.__new__(cls, name, bases, attrs)
+```
+class ListMetaclass(type):
+    def __new__(cls, name, bases, attrs):
+        print('cls:\t', cls);
+        print('name:\t',  name);
+        print('bases:\t', bases);
+        print('attrs:\t', attrs);
+        attrs['add'] = lambda self, value: self.append(value)
+        new_cls = type.__new__(cls, name, bases, attrs)
+        print(new_cls)
+        print('---------')
+        return new_cls;
+
+print('---define MyList---')
+class MyList(list, metaclass=ListMetaclass):
+    print('--execute static')
+    a=1
+    _b=2
+    def _p(self):
+        print('test');
+
+print(MyList.__dict__.keys())
+print('\n---L=MyList()---')
+L=MyList()
+L.add(1)
+print(L); # [1]
+print(type(L)); # class MyList
+```
 
 __new__()方法接收到的参数依次是：
 
-	当前准备创建的类的对象；
-	类的名字；
-	类继承的父类集合；
-	类属性
+    ---define MyList---
+    --execute static
+    cls:	 <class '__main__.ListMetaclass'> 没啥用, 不过必须是subtype of xxx
+    name:	 MyList
+    bases:	 (<class 'list'>,)
+    attrs:	 {'__module__': '__main__', '__qualname__': 'MyList', 'a': 1, '_p': <function MyList._p at 0x1037fc8c8>, '_b': 2}
+    <class '__main__.MyList'>
+    ---------
+    dict_keys(['__dict__', '__module__', 'add', 'a', '_b', '__weakref__', '__doc__', '_p'])
 
-有了ListMetaclass，我们在定义类的时候还要指示使用ListMetaclass来定制类，传入关键字参数metaclass：
+    ---L=MyList()---
+    [1]
+    <class '__main__.MyList'>
 
-	class MyList(list, metaclass=ListMetaclass):
-		pass
-	class MyList(list):
-        __metaclass__=ListMetaclass
-
-测试一下MyList是否可以调用add()方法：
-
-	>>> L = MyList()
-	>>> L.add(1)
-	>> L
-	[1]
-
-##  __del__
+##  __del__, 垃圾回收
 `__del__` 就是析构器。它不实现语句 del x (不会翻译为 x.__del__() )。
 
 1. 它定义的是当一个对象进行垃圾回收时候的行为。
@@ -612,16 +679,6 @@ You'll get:
 	TypeError: Cannot create a consistent method resolution
 	order (MRO) for bases Second, First
 
-## static var in class
-
-    def Foo(object):
-        i=1
-    def Bar(Foo):
-        pass
-    print(Foo.i); # 1
-    print(Bar.i); # 1
-    print(Bar().i); # 1
-
 # super
 https://www.zhihu.com/question/20040039
 
@@ -678,6 +735,3 @@ result:
 	A
 	D arg= 10
 	B
-
-# todo
-> http://python.jobbole.com/82622/

@@ -22,6 +22,12 @@ description:
 	socat：套接字中继和 tcp 端口转发（类似 netcat）
 	scan: nmap, zmap
 
+    nethogs: 按进程查看流量占用
+    iptraf: 按连接/端口查看流量
+    ifstat: 按设备查看流量
+    ethtool: 诊断工具
+    其他: dstat, slurm, nload, bmon
+
 # monitor
 http://www.binarytides.com/linux-commands-monitor-network/
 

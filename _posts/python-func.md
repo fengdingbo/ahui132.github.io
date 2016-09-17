@@ -225,7 +225,7 @@ If initial is present, it is placed before the items of the sequence in the calc
     pipeline_func(nums, [even_filter,
                        multiply_by_three,
                        convert_to_string])
-                       
+
 ## filter
 filter 返回的也是惰性Iterator
 
@@ -327,6 +327,11 @@ ython内置的sorted()函数就可以对list进行排序：
 	['Zoo', 'Credit', 'bob', 'about']
 
 # decorator, 装饰器
+
+    # func(MyClass)
+    @func
+    class MyClass(object): pass
+
 由于函数也是一个对象，而且函数对象可以被赋值给变量，所以，通过变量也能调用该函数。
 
 	>>> def now():
@@ -390,7 +395,7 @@ ython内置的sorted()函数就可以对list进行排序：
 	>>> now.__name__
 	'wrapper'
 
-因为返回的那个wrapper()函数名字就是'wrapper'，所以，需要把原始函数的__name__等属性复制到wrapper()函数中，否则，有些依赖函数签名的代码执行就会出错。
+因为返回的那个wrapper()函数名字就是'wrapper'，所以，需要把原始函数的`__name__`等属性复制到wrapper()函数中，否则，有些依赖函数签名的代码执行就会出错。
 
 不需要编写`wrapper.__name__ = func.__name__`这样的代码，Python内置的`functools.wraps`就是干这个事的，所以，一个完整的decorator的写法如下：
 

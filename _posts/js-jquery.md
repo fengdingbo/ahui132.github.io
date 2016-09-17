@@ -9,6 +9,7 @@ description:
 
 	$(selector)
 		$('div span');//span 可能是儿子，孙子，孙孙子....
+        $('table tr:not(:first)');
 		$('#mydiv')
 	$(selector, this)
 		var optionSelected = $("option:selected", this); //you are finding all selector elements inside this's context.

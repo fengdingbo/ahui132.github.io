@@ -162,10 +162,13 @@ with no space and new line:
 	string
 
 ## Format String
+%s
 
 	>>> format='%s'
 	>>> print format % 'part1' 'part2'
 	part1part2
+
+%r
 
 	>>> print 'This is (%r) (%s)' % ("Hilojack\"", "Blog")
 	This is ('Hilojack"') (Blog)

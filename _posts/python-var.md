@@ -71,6 +71,9 @@ Convert data type:
 	isinstance('abc', Iterable); # True
 	isinstance([1, 2, 3], (list, tuple))
 
+	issubclass(obj.__class__, (list, tuple))
+	issubclass(list, (list, tuple)); # true
+
 # boolean
 False
 
@@ -147,6 +150,11 @@ True
 	del dict['x']
 	dict.setdefault(1, 123)
 
+## get value
+
+    dic.get(key)
+    dic[key]
+
 ## define dict
 
 	dic = dict(key1=1)
@@ -181,6 +189,8 @@ dict subclass that calls a factory function to supply missing values。
 ## has_key
 
 	if key in dict:
+
+    ## for obj only
 	if hasattr(obj, 'attribute'):
 		# obj.attr_name exists.
 
