@@ -112,6 +112,13 @@ multiprocessing.Pool(4) 比fork 简单
 
 由于Pool的默认大小是CPU的核数，如果你不幸拥有8核CPU，你要提交至少9个子进程才能看到上面的等待效果。
 
+## map
+map 并行处理10 个任务
+
+    >>> import multiprocessing
+    >>> import math
+    >>> list(multiprocessing.Pool(processes=4).map(math.exp,range(1,11)))
+
 # shell 子进程
 很多时候，子进程并不是自身，而是一个外部进程。我们创建了子进程后，还需要控制子进程的输入和输出。
 
