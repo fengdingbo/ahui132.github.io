@@ -317,6 +317,9 @@ np.array()
     plt.ylim(-1.25,+1.25)
     plt.show()
 
+## more charts
+http://matplotlib.org/gallery.html#lines_bars_and_markers
+
 ## save
 show() 后会清数据..
 

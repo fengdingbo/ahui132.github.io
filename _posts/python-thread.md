@@ -11,7 +11,7 @@ Python的标准库提供了两个模块：`_thread`和`threading`，_thread是�
 
 	import time, threading
 	t = threading.Thread(target=loop, name='LoopThread', args = (arg1, arg2, ..))
-	# t.setDaemon(True); # 独立进程, 否则: 主线程结束后，会默认等待子线程结束后，主线程才退出。
+	# t.setDaemon(False); # 独立线程, 否则: 主线程结束后，会默认等待子线程结束后，主线程才退出。
 	t.start()
 	t.join(); 相当于wait
 	threading.current_thread().name

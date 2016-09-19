@@ -117,28 +117,28 @@ asyncio的编程模型就是一个消息循环。我们从asyncio模块中直接
 ### yield from reader.readline()
 我们用asyncio的异步网络连接来获取sina、sohu和163的网站首页：
 
-	import asyncio
+    import asyncio
 
-	@asyncio.coroutine
-	def wget(host):
-		print('wget %s...' % host)
-		connect = asyncio.open_connection(host, 80)
-		reader, writer = yield from connect
-		header = 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' % host
-		writer.write(header.encode('utf-8'))
-		yield from writer.drain()
-		while True:
-			line = yield from reader.readline()
-			if line == b'\r\n':
-				break
-			print('%s header > %s' % (host, line.decode('utf-8').rstrip()))
-		# Ignore the body, close the socket
-		writer.close()
+    async def wget(host):
+            print('wget %s...' % host)
+            connect = asyncio.open_connection(host, 80)
+            # await asyncio.sleep(4)
+            reader, writer = await connect
+            header = 'GET / HTTP/1.0\r\nHost: %s\r\n\r\n' % host
+            writer.write(header.encode('utf-8'))
+            await writer.drain()
+            while True:
+                    line = await reader.readline()
+                    if line == b'\r\n':
+                            break
+                    print('%s header > %s' % (host, line.decode('utf-8').rstrip()))
+            # Ignore the body, close the socket
+            writer.close()
 
-	loop = asyncio.get_event_loop()
-	tasks = [wget(host) for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com']]
-	loop.run_until_complete(asyncio.wait(tasks))
-	loop.close()
+    loop = asyncio.get_event_loop()
+    tasks = [wget(host) for host in ['www.sina.com.cn', 'www.sohu.com', 'www.163.com', 'baidu.com']]
+    loop.run_until_complete(asyncio.wait(tasks))
+    loop.close()
 
 执行结果如下：
 
@@ -406,9 +406,10 @@ Output:
 	Task A: factorial(2) = 2
 
 ## gather
-1. 将tasks 包装成 futures(如果没有)
-2. futures 各自set_result
+1. 将`*tasks` 包装成 futures
+2. futures 要保存 set_result
 
+    $ vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/tasks.py +579
     outer = _GatheringFuture(children, loop=loop)
     for i, fut in enumerate(children):
         fut.add_done_callback(functools.partial(_done_callback, i)); # set result
@@ -477,19 +478,23 @@ Output:
 	loop.run_until_complete(asyncio.wait([coroutine1, coroutine2]))
 
 ## asyncio.wait
+it will not raise th exceptions happening in the task with 'logging.config.fileConfig', use `asyncio.gather(*tasks)` instead 
+https://github.com/python/asyncio/issues/424
 
-    $ vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/tasks.py +313
+     vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/tasks.py +313
+    Wait for the Futures and coroutines given by fs to complete.
     Usage:
         done, pending = yield from asyncio.wait(fs)
 
-    done, pending = set(), set()
-    for f in fs:
-        f.remove_done_callback(_on_completion)
-        if f.done():
-            done.add(f)
-        else:
-            pending.add(f)
-    return done, pending
+    return (yield from _wait(fs, timeout, return_when, loop))
+        done, pending = set(), set()
+        for f in fs:
+            f.remove_done_callback(_on_completion)
+            if f.done():
+                done.add(f)
+            else:
+                pending.add(f)
+        return done, pending
 
 ## create_server
 
