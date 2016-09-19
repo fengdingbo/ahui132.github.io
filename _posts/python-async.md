@@ -405,6 +405,15 @@ Output:
 	Task C: Compute factorial(2)...
 	Task A: factorial(2) = 2
 
+## gather
+1. 将tasks 包装成 futures(如果没有)
+2. futures 各自set_result
+
+    outer = _GatheringFuture(children, loop=loop)
+    for i, fut in enumerate(children):
+        fut.add_done_callback(functools.partial(_done_callback, i)); # set result
+    return outer
+
 # aiohttp
 > 如果把asyncio用在服务器端，例如Web服务器，由于HTTP连接就是IO操作，因此可以用单线程+coroutine实现多用户的高并发支持。
 > asyncio实现了TCP、UDP、SSL等协议，aiohttp则是基于asyncio实现的HTTP框架。
@@ -450,7 +459,7 @@ Output:
 
 - run_until_complete
 
-	vim /usr/local/Cellar/python3/3.5.0/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/base_events.py +291
+	vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/base_events.py +291
 
 ## aiohttp.Timeout
 
@@ -466,6 +475,21 @@ Output:
 
 	loop.run_until_complete(coroutine)
 	loop.run_until_complete(asyncio.wait([coroutine1, coroutine2]))
+
+## asyncio.wait
+
+    $ vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/tasks.py +313
+    Usage:
+        done, pending = yield from asyncio.wait(fs)
+
+    done, pending = set(), set()
+    for f in fs:
+        f.remove_done_callback(_on_completion)
+        if f.done():
+            done.add(f)
+        else:
+            pending.add(f)
+    return done, pending
 
 ## create_server
 

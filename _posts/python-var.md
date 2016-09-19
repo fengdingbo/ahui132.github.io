@@ -180,11 +180,12 @@ or
 ## defaultdict
 dict subclass that calls a factory function to supply missing values。
 
-	from collections import defaultdict, namedtuple
-	d = collections.defaultdict(list)
-	d['miss_key'] = 'hi'
-	d['list_key'].append(1);
-
+```
+from collections import defaultdict, namedtuple
+d = collections.defaultdict(list)
+d['miss_key'] = 'hi'
+d['list_key'].append(1);
+```
 
 ## has_key
 

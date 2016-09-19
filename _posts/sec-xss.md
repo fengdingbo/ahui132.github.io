@@ -31,7 +31,7 @@ And this??
 	<div style="this-is-js-property: alert 'xss';">
 
 # CSP, Content Security Policy
-http://www.ruanyifeng.com/blog/2016/09/csp.html
+> http://www.ruanyifeng.com/blog/2016/09/csp.html
 CSP 的实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行
 
 ## 加载方法

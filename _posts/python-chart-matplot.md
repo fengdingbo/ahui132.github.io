@@ -190,6 +190,11 @@ close figure:
     close(f)
     close(); # current figure
 
+### Axes
+(0.3,0.3) 是偏移, (.5,.5) 是长宽
+
+    plt.axes([0.3,0.3,.5,.5])
+
 ### Ticks
 #### Tick Locators
 There are several locators for different kind of requirements:
@@ -220,6 +225,7 @@ All of these locators derive from the base class `matplotlib.ticker.Locator`. Yo
 http://stackoverflow.com/questions/14440171/matplotlib-x-axis-ticks-dates-formatting-and-locations
 doc for AutoDateFormatter
 
+    from pylab import *
     import matplotlib.pyplot as plt
     import datetime
 
@@ -227,7 +233,14 @@ doc for AutoDateFormatter
     now =  datetime.datetime.now()
     times = [now + d * j for j in range(500)]
     ax = plt.gca() # get the current axes
-    ax.plot(times, range(500))
+    Y = range(500)
+    X = times
+
+    # X = np.array(X); # ok
+    # Y = np.array(Y); # ok
+    # plt.fill_between; # ok
+    ax.fill_between(X, 0, Y, color='#4695da', alpha=0.5)
+    ax.plot(X, Y)
 
     xax = ax.get_xaxis() # get the x-axis
     adf = xax.get_major_formatter() # the the auto-formatter
@@ -239,10 +252,9 @@ doc for AutoDateFormatter
     adf.scaled[365.] = '%Y' # set the > 1y scale to Y
 
     plt.draw()
+    show()
 
-# todo
-
-## with date()
+#### with date locator
 
     import datetime as dt
     dates = ['01/02/1991 10:21','01/02/1991 10:22','01/02/1991 10:23']
@@ -257,15 +269,52 @@ doc for AutoDateFormatter
     plt.plot(x,y)
     plt.gcf().autofmt_xdate()
 
+# shape
+
 ## line fill
 
     import numpy as np
     import matplotlib.pyplot as plt
 
-    x = np.linspace(0, 2 * np.pi, 100)
-    y1 = np.sin(x)
-    y2 = np.sin(3 * x)
-    plt.fill(x, y1, 'b', x, y2, 'r', alpha=0.3)
+    n = 256
+    X = np.linspace(-np.pi,np.pi,n,endpoint=True)
+    Y = np.sin(2*X)
+
+    plt.axes([0.025,0.025,0.95,0.95])
+
+    plt.plot(X, Y+1, color='blue', alpha=1.00)
+    plt.fill_between(X, 1, Y+1, color='blue', alpha=.25)
+
+    plt.plot(X, Y-1, color='blue', alpha=1.00)
+    plt.fill_between(X, -1, Y-1, (Y-1) > -1, color='blue', alpha=.25)
+    plt.fill_between(X, -1, Y-1, (Y-1) < -1, color='red',  alpha=.25)
+
+    plt.xlim(-np.pi,np.pi), plt.xticks([])
+    plt.ylim(-2.5,2.5), plt.yticks([])
+    plt.show()
+
+![python-chart-matplot-4.png](/img/python-chart-matplot-4.png)
+
+        plt.fill_between(X, Y_from, Y_to, [Y_limit,] color='blue', alpha=1.00)
+
+np.array()
+
+    X = np.array()
+
+## bar
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    n = 12
+    X = np.arange(n)
+    Y1 = (1-X/float(n)) * np.random.uniform(0.5,1.0,n)
+    plt.bar(X, +Y1, facecolor='#9999ff', edgecolor='white')
+
+    for x,y in zip(X,Y1):
+        plt.text(x+0.4, y+0.05, '%.2f' % y, ha='center', va= 'bottom')
+
+    plt.ylim(-1.25,+1.25)
     plt.show()
 
 ## save
@@ -276,6 +325,3 @@ show() 后会清数据..
 whitespace around the image. Remove it with:
 
     savefig('foo.png', bbox_inches='tight')
-
-# label
-matplotlib: how to decrease density of tick labels in subplots?
