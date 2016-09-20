@@ -88,8 +88,11 @@ To send your own cookies to the server, you can use the cookies parameter of Cli
 
 ## update cookie
 
-    session.cookie_jar.update_cookies(self, cookies, response_url=None)
-        Update cookies.
+    session.cookie_jar.update_cookies(cookies, response_url=None)
+        Update cookies returned by server in Set-Cookie header.
+        cookies – a collections.abc.Mapping (e.g. dict, SimpleCookie) or iterable of pairs with cookies returned by server’s response.
+
+    session.cookie_jar.clear()
 
 ## iterate
 These cookies may be iterated over:
