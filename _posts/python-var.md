@@ -27,6 +27,12 @@ To check the existence of a global variable:
 	if 'myVar' in globals():
 	  # myVar exists.
 
+calling a func by name
+
+    getattr(foo, 'func')()
+    locals()["func"]()
+    globals()["func"]()
+
 ## reference
 list, tuple, dict 都是引用型的，无论是赋值，还是func 传值, 还是线程`threading.Thread(target=run_thread, args=(list,))`
 

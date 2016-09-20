@@ -11,6 +11,8 @@ description:
 	import time
 	time.time()
 		19972314124.05238
+	time.ctime()
+        'Tue Sep 20 15:19:28 2016'
 
 ## sleep
 

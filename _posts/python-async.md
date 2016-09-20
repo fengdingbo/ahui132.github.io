@@ -482,7 +482,7 @@ logging system like `logging.config.fileConfig` may suppresses the output of the
 
     done, pending = asyncio.get_event_loop().run_until_complete(asyncio.wait([sync(), sync()])) # terminated here
     for task in done:
-         done.result()  # raise the exception
+         task.result()  # raise the exception
 
 vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/tasks.py +313
 

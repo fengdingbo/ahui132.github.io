@@ -85,6 +85,6 @@ tuple
 	sh = wb.active
 	# python3 only
 	with open('test.csv', 'w') as f:
-		c = csv.writer(f)
+		c = csv.writer(f); //writer(f, dialect='excel')
 		for r in sh.rows:
 			c.writerow([cell.value for cell in r])

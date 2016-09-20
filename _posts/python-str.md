@@ -191,6 +191,10 @@ with no space and new line:
 	import json
 	str = json.dumps(data)
 	print(json.loads(str))
+    >>> json.dumps(a, ensure_ascii=False).encode('utf-8')
+    b'{"a": "\xe4\xb8\xad\xe5\x9b\xbd\xe4\xba\xbahahha"}'
+    >>> json.dumps(a, ensure_ascii=True).encode('utf-8')
+    b'{"a": "\\u4e2d\\u56fd\\u4ebahahha"}'
 
 ### json class
 json dumps 类时，得用default

@@ -1,3 +1,103 @@
+# Requests
+
+## post
+Your dictionary of data will automatically be form-encoded when the request is made:
+
+    payload = {'key1': 'value1', 'key2': 'value2'}
+    # data = json.dumps(payload)
+    async with session.post('http://httpbin.org/post', data=payload) as resp:
+        print(await resp.text())
+
+## post file
+To upload Multipart-encoded files:
+
+    url = 'http://httpbin.org/post'
+    files = {'file': open('report.xls', 'rb')}
+    await session.post(url, data=files)
+
+You can set the filename, content_type explicitly:
+
+    url = 'http://httpbin.org/post'
+    data = FormData()
+    data.add_field('file',
+                   open('report.xls', 'rb'),
+                   filename='report.xls',
+                   content_type='application/vnd.ms-excel')
+
+    await session.post(url, data=data)
+
+### Streaming uploads
+aiohttp supports multiple types of streaming uploads, which allows you to send large files without reading them into memory.
+
+As a simple case, simply provide a file-like object for your body:
+
+    with open('massive-body', 'rb') as f:
+       await session.post('http://some.url/streamed', data=f)
+
+Or you can provide an coroutine that yields bytes objects:
+
+    @asyncio.coroutine
+    def my_coroutine():
+       chunk = yield from read_some_data_from_somewhere()
+       if not chunk:
+          return
+       yield chunk
+
+#### upload StreamReader object
+Also it is possible to use a StreamReader object.
+Lets say we want to upload a file from another request and calculate the file SHA1 hash:
+
+       async def feed_stream(resp, stream):
+           h = hashlib.sha256()
+
+           while True:
+               chunk = await resp.content.readany()
+               if not chunk:
+                   break
+               h.update(chunk)
+               stream.feed_data(chunk)
+
+           return h.hexdigest()
+
+       resp = session.get('http://httpbin.org/post')
+       stream = StreamReader()
+       loop.create_task(session.post('http://httpbin.org/post', data=stream))
+
+       file_hash = await feed_stream(resp, stream)
+
+Because the response content attribute is a StreamReader, you can chain get and post requests together (aka HTTP pipelining):
+
+    r = await session.get('http://python.org')
+    await session.post('http://httpbin.org/post', data=r.content)
+
+# Headers
+
+    headers = {'content-type': 'application/json'}
+    await session.post(url, data=json.dumps(payload), headers=headers)
+
+# Cookie
+
+## Custom Cookies
+To send your own cookies to the server, you can use the cookies parameter of ClientSession constructor:
+
+    url = 'http://httpbin.org/cookies'
+    cookies = {'cookies_are': 'working'}
+    async with ClientSession(cookies=cookies) as session:
+        async with session.get(url) as resp:
+            assert await resp.json() == { "cookies": {"cookies_are": "working"}}
+
+## update cookie
+
+    session.cookie_jar.update_cookies(self, cookies, response_url=None)
+        Update cookies.
+
+## iterate
+These cookies may be iterated over:
+
+    for cookie in session.cookie_jar:
+        print(cookie.key)
+        print(cookie["domain"])
+
 # proxy
 Proxy support
 
@@ -15,14 +115,3 @@ it also supports proxy authorization:
 Authentication credentials can be passed in proxy URL:
 
     session.get("http://python.org", proxy="http://user:pass@some.proxy.com"
-
-# Cookie
-
-## Custom Cookies
-To send your own cookies to the server, you can use the cookies parameter of ClientSession constructor:
-
-    url = 'http://httpbin.org/cookies'
-    cookies = {'cookies_are': 'working'}
-    async with ClientSession(cookies=cookies) as session:
-        async with session.get(url) as resp:
-            assert await resp.json() == { "cookies": {"cookies_are": "working"}}

@@ -150,8 +150,7 @@ left:
 ##### 根据窗口的(innerWidth,innerHeight) 查询element
 
 	document.elementFromPoint(500,300)
-
-
+    document.elementFromPoint(x, y).click();
 
 ## location
 
