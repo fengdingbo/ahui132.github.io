@@ -6,6 +6,49 @@ description:
 ---
 # Preface
 
+# url
+
+	urllib.parse.urlsplit(url)
+	urllib.parse.urlparse(url)
+		.scheme
+		.path
+		.query
+		.host
+
+## parse_url
+
+	import urllib.parse
+	urllib.parse.parse_qs('a=1&b=2');
+		{'a': ['1'], 'b': ['2']}
+	urllib.parse.parse_qsl('a=1&b=2&b=3')
+		[('a', '1'), ('b', '2'), ('b', '3')]
+	urllib.parse.parse_qs('a=1&b=2',unique_key=True);# custom unique_key
+
+	urllib.parse.urlencode({'a':1})
+	'a=1'
+	urllib.parse.urlencode({'a':[1,2]}, doseq=True)
+	'a=1&a=2'
+
+
+# urllib2
+urllib2 is deprecated
+
+## proxy
+
+	import urllib
+	import urllib2
+	url = 'http://weibo.cn'
+	data = urllib.urlencode({'k':'v'})
+	opener = urllib2.build_opener(urllib2.ProxyHandler({'http':'http://ip:port'}))
+	urllib2.install_opener(opener)
+	req = urllib2.Request(url, data)
+	try:
+		response = urllib2.urlopen(req,timeout=2)
+		the_page = response.read()
+		print the_page.decode('utf-8')
+	except:
+		pass
+
 # Request
 http://docs.python-requests.org/en/latest/index.html
 
@@ -74,6 +117,43 @@ If you want, you can send strings to be received as files:
 
 	data=urllib.parse.parse_qs('a=1&b=1')
 	>>> r = requests.post("http://httpbin.org/post", data = data)
+
+## proxy
+代理
+
+    proxies = {
+      "http": "http://10.10.1.10:3128",
+      "https": "http://10.10.1.10:1080",
+    }
+
+    requests.get("http://example.org", proxies=proxies)
+
+你也可以通过环境变量 HTTP_PROXY 和 HTTPS_PROXY 来配置代理。
+
+    $ export HTTP_PROXY="http://10.10.1.10:3128"
+    $ export HTTPS_PROXY="http://10.10.1.10:1080"
+
+若你的代理需要使用HTTP Basic Auth，可以使用 http://user:password@host/ 语法：
+
+    proxies = {
+        "http": "http://user:pass@10.10.1.10:3128/",
+    }
+
+要为某个特定的连接方式或者主机设置代理，使用 scheme://hostname 作为 key， 它会针对指定的主机和连接方式进行匹配。
+
+    proxies = {'http://10.20.1.128': 'http://10.10.1.10:5323'}
+
+### SOCKS
+除了基本的 HTTP 代理，Request 还支持 SOCKS 协议的代理。这是一个可选功能，若要使用， 你需要安装第三方库。
+
+    $ pip install requests[socks]
+
+安装好依赖以后，使用 SOCKS 代理和使用 HTTP 代理一样简单：
+
+    proxies = {
+        'http': 'socks5://user:pass@host:port',
+        'https': 'socks5://user:pass@host:port'
+    }
 
 ## Custom Headers
 For example, we didn’t specify our user-agent in the previous example:
@@ -214,11 +294,11 @@ Use a session object instead, it'll persist cookies and send them back to the se
 	s = requests.Session()
 	s.auth = ('user', 'pass')
 	s.headers.update({'x-test': 'true'})
-	# 如何构造？？help(*cookie_jar)
-	s.cookies.set_cookie('a=1;b=2;domain/')? tetst
-
 	// both 'x-test' and 'x-test2' are sent
 	s.get('http://httpbin.org/headers', headers={'x-test2': 'true'})
+
+	# 如何构造？？help(*cookie_jar)
+	s.cookies.set_cookie('a=1;b=2;domain/')? tetst
 
 如果你要手动为会话添加 cookie，就是用 [Cookie utility] 函数 来操纵 Session.cookies。
 [Cookie utility]: http://docs.python-requests.org/zh_CN/latest/api.html#api-cookies
@@ -232,48 +312,3 @@ Use a session object instead, it'll persist cookies and send them back to the se
 
 	session.get(url)...
 	session.cookies.save(COOKIE_FILE, ignore_discard=True, ignore_expires=True)
-
-
-
-# url
-
-	urllib.parse.urlsplit(url)
-	urllib.parse.urlparse(url)
-		.scheme
-		.path
-		.query
-		.host
-
-## parse_url
-
-	import urllib.parse
-	urllib.parse.parse_qs('a=1&b=2');
-		{'a': ['1'], 'b': ['2']}
-	urllib.parse.parse_qsl('a=1&b=2&b=3')
-		[('a', '1'), ('b', '2'), ('b', '3')]
-	urllib.parse.parse_qs('a=1&b=2',unique_key=True);# custom unique_key
-
-	urllib.parse.urlencode({'a':1})
-	'a=1'
-	urllib.parse.urlencode({'a':[1,2]}, doseq=True)
-	'a=1&a=2'
-
-
-# urllib2
-urllib2 is deprecated
-
-## proxy
-
-	import urllib
-	import urllib2
-	url = 'http://weibo.cn'
-	data = urllib.urlencode({'k':'v'})
-	opener = urllib2.build_opener(urllib2.ProxyHandler({'http':'http://ip:port'}))
-	urllib2.install_opener(opener)
-	req = urllib2.Request(url, data)
-	try:
-		response = urllib2.urlopen(req,timeout=2)
-		the_page = response.read()
-		print the_page.decode('utf-8')
-	except:
-		pass

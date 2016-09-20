@@ -477,11 +477,15 @@ Output:
 	loop.run_until_complete(coroutine)
 	loop.run_until_complete(asyncio.wait([coroutine1, coroutine2]))
 
-## asyncio.wait
-it will not raise th exceptions happening in the task with 'logging.config.fileConfig', use `asyncio.gather(*tasks)` instead 
-https://github.com/python/asyncio/issues/424
+### asyncio.wait
+logging system like `logging.config.fileConfig` may suppresses the output of the exception. use `asyncio.gather(*tasks)` instead
 
-     vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/tasks.py +313
+    done, pending = asyncio.get_event_loop().run_until_complete(asyncio.wait([sync(), sync()])) # terminated here
+    for task in done:
+         done.result()  # raise the exception
+
+vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/tasks.py +313
+
     Wait for the Futures and coroutines given by fs to complete.
     Usage:
         done, pending = yield from asyncio.wait(fs)
