@@ -195,6 +195,10 @@ d['list_key'].append(1);
 	if hasattr(obj, 'attribute'):
 		# obj.attr_name exists.
 
+## has_value
+
+    'one' in d.values()
+
 ## dict to object
 
 	class Dict2Obj(object):
