@@ -37,8 +37,11 @@ p2p, 基金, 股票
 # 讲课
 在线 - 麦子学院
 
-# 写作
+# tool
+## 写作
 $ wb content
+push to: blog + weixin
+##
 
 # 装修
 http://www.weixinyidu.com/n_581236

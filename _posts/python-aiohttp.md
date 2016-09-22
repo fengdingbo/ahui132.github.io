@@ -142,7 +142,7 @@ for aiohttp:
 
     connector = aiohttp.TCPConnector(verify_ssl=False)
     aiohttp.request('get', url, connector=connector)
-    
+
     aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False))
 
 for requests:
