@@ -29,6 +29,18 @@ description:
 	urllib.parse.urlencode({'a':[1,2]}, doseq=True)
 	'a=1&a=2'
 
+# SimpleCookie
+
+    from Cookie import SimpleCookie
+    >>> sc = SimpleCookie('key1=val1; key2=val2; key3=val3')
+    >>> for c,v in sc.items():
+    ...     print c,v
+    ...
+    key3 Set-Cookie: key3=val3
+    key2 Set-Cookie: key2=val2
+    key1 Set-Cookie: key1=val1
+    >>> sc['key1'].key
+    >>> sc['key1'].value
 
 # urllib2
 urllib2 is deprecated

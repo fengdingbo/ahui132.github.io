@@ -6,7 +6,7 @@ layout: default
   <header class="post-header">
       <div>
           <div class="post-title">
-              {{ page.title }} <br/>       
+              {{ page.title }} <br/>
           </div>
           <div class="post-date" >{{ page.date | date: "%b %-d, %Y" }}</div>
       </div>
@@ -21,7 +21,7 @@ layout: default
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
-    var disqus_shortname = 'hilojack';
+    var disqus_shortname = 'ahui132';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -31,7 +31,7 @@ layout: default
 </script>
 <hr/>
 
-<div class="post-page"> 
+<div class="post-page">
     <div class="post-page-left">
         <a href="{{ page.previous.url }}">{{ page.previous.title }}</a>
     </div>

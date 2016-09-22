@@ -37,6 +37,7 @@ description:
 	d.month
 	d.weakday() 0~6
 	d.day
+
 	d.hour
 	d.minute
 	d.second
@@ -120,13 +121,53 @@ timestamp也可以直接被转换到UTC标准时区的时间：
 
 注意转换后的datetime是没有时区信息的。
 
-## datetime转换为str
+## strftime: datetime转换为str
 如果已经有了datetime对象，要把它格式化为字符串显示给用户，就需要转换为str，转换方法是通过strftime()实现的，同样需要一个日期和时间的格式化字符串：
 
 	>>> from datetime import datetime
 	>>> now = datetime.now()
 	>>> print(now.strftime('%a, %b %d %H:%M'))
 	Mon, May 05 16:28
+
+formater: https://docs.python.org/3/library/datetime.html
+
+    zone:
+        %Z  (empty),UTC,EST,CST (time zone name)
+        %z  UTC+0000,-0400,+1030,+0800 (time zone offset)
+    weekday:
+        %a Sun, Mon, ..., Sat (en_US);
+        %A Sunday, Monday, ..., Saturday (en_US);
+        %w 0,1,...,6(Saturday)
+        %U	00,01,....,53 (Sunday as the first day)
+        %W	00,01,....,53 (Monday as the first day)
+    year:
+        %y  00,01,...09
+        %Y  0001,0002,....,2016,...
+    month:
+        %b Jan, Feb, ..., Dec (en_US);
+        %B January, February, ..., December (en_US);
+        %m  01,...,12
+    day:
+        %d  01,...,31
+        %j  001,...,366
+    Hour:
+        %H  00,....,23
+        %I  01,02,...,12(12 hour)
+        %p  AM,PM
+
+    Minute:
+        %M  00,...,59
+    Second:
+        %S  00,...,59
+    Microsecond
+        %f  000000,...,999999
+
+### CST
+
+    datetime.now(tz=timezone(timedelta(hours=8))).strftime('%a %b %d %Y %H:%M:%S GMT%z (CST)')
+    'Thu Sep 22 2016 17:50:56 GMT+0800 (CST)'
+
+
 
 # datetime加减 - timedelta
 使用timedelta你可以很容易地算出前几天和后几天的时刻。
@@ -144,8 +185,14 @@ timestamp也可以直接被转换到UTC标准时区的时间：
 
 # timezone
 
+    from datetime import datetime, timedelta,timezone
+
 ## 本地时间转换为UTC时间
 本地时间是指系统设定时区的时间，例如北京时间是UTC+8:00时区的时间，而UTC时间指UTC+0:00时区的时间。
+
+    datetime.now().replace(tzinfo=timezone(timedelta(hours=8))) # wrong: locale 时间不会变, 加时区后时间变了
+    datetime.utcnow().replace(tzinfo=timezone.utc).__str__()    # ok: locale 时间不会变, 应该当基于utc 时间加时区
+    datetime.now(tz=timezone(timedelta(hours=7))).__str__() # ok: 自动基于utc 时间加时区
 
 一个datetime类型有一个时区属性tzinfo，但是默认为None，所以无法区分这个datetime到底是哪个时区，除非强行给datetime设置一个时区：
 
@@ -161,6 +208,8 @@ timestamp也可以直接被转换到UTC标准时区的时间：
 如果系统时区恰好是UTC+8:00，那么上述代码就是正确的，否则，不能强制设置为UTC+8:00时区。
 
 ## 时区转换
+utc time 可以用astimezone, naive datetime 则不行(时间戳会变)
+astimezone 强制基于utc 时间加时区
 
 我们可以先通过utcnow()拿到当前的UTC时间，再转换为任意时区的时间：
 

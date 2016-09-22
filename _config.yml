@@ -1,11 +1,11 @@
 # Site settings
-title: hilojack
-name: hilojack
+title: ahui132
+name: ahui132
 email: 
 description: ''
 baseurl: ""
 url: "http://hilojack.com"
-username: hilojack
+username: ahui132 
 
 # Build settings
 markdown: kramdown

@@ -115,6 +115,33 @@ Example：
 	# 跟踪fork(-f) 或者 vfork(-F) 出的子进程
 	strace -f -F httpd -k start
 
+## debug
+
+### restart_syscall
+The restart_syscall() system call is used to restart certain system
+       calls after a process that was stopped by a signal (e.g., SIGSTOP or
+       SIGTSTP) is later resumed after receiving a SIGCONT signal.
+
+下面的会看到restart_syscall
+
+    strace php -r 'sleep(5);'
+    ctrl+z
+    fg
+    ---------output-------------
+
+1. 当程序收到一个信号时，离开正在执行的系统调用去处理信号，处理完信号（上面是直到收到一个sigcont信号才算处理完上刚才的信号），
+2. 继续执行*原来的系统调用*是通过restart_syscall
+
+1. restart_syscall() is used for restarting only those system calls:
+    poll(2) (since Linux 2.6.24),
+    nanosleep(2) (since Linux 2.6),
+   clock_nanosleep(2) (since Linux 2.6),
+   and futex(2),
+when employed with the FUTEX_WAIT (since Linux 2.6.22) and FUTEX_WAIT_BITSET (since Linux 2.6.31) operations.
+
+2. Without the restart_syscall() mechanism, restarting these system calls would not correctly deduct
+       the already elapsed time when the process continued execution.
+
 ## 实例
 
 ### 跟踪可执行程序

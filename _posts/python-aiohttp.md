@@ -1,5 +1,9 @@
 # Requests
 
+## options
+
+    async with session.options(url, headers=headers) as r:
+
 ## post
 Your dictionary of data will automatically be form-encoded when the request is made:
 
@@ -12,7 +16,7 @@ Your dictionary of data will automatically be form-encoded when the request is m
 To upload Multipart-encoded files:
 
     url = 'http://httpbin.org/post'
-    files = {'file': open('report.xls', 'rb')}
+    files = {'file1': open('report.xls', 'rb'), 'key':'value'}
     await session.post(url, data=files)
 
 You can set the filename, content_type explicitly:
@@ -87,12 +91,20 @@ To send your own cookies to the server, you can use the cookies parameter of Cli
             assert await resp.json() == { "cookies": {"cookies_are": "working"}}
 
 ## update cookie
+vim /usr/local/lib/python3.5/site-packages/aiohttp/cookiejar.py +80
 
     session.cookie_jar.update_cookies(cookies, response_url=None)
+    session.cookie_jar.update_cookies({'a':'bbbbbb'});
         Update cookies returned by server in Set-Cookie header.
         cookies – a collections.abc.Mapping (e.g. dict, SimpleCookie) or iterable of pairs with cookies returned by server’s response.
 
     session.cookie_jar.clear()
+    session.cookie_jar.__dict__['_cookies']
+        defaultdict(<class 'http.cookies.SimpleCookie'>, {'qq.com': <SimpleCookie: a='bbbbbb' cookies_are='working'>})
+    session.cookie_jar.__dict__['_cookies']['qq.com']['a'].value
+        bbbb
+    session.cookie_jar.__dict__['_cookies']['qq.com']['a'].key
+        a
 
 ## iterate
 These cookies may be iterated over:
@@ -100,6 +112,12 @@ These cookies may be iterated over:
     for cookie in session.cookie_jar:
         print(cookie.key)
         print(cookie["domain"])
+
+## response
+    async with aiohttp.ClientSession(cookies=cookies) as session:
+        async with session.get(url) as resp:
+            await resp.json()
+
 
 # proxy
 Proxy support
@@ -118,3 +136,19 @@ it also supports proxy authorization:
 Authentication credentials can be passed in proxy URL:
 
     session.get("http://python.org", proxy="http://user:pass@some.proxy.com"
+
+## ssl
+for aiohttp:
+
+    connector = aiohttp.TCPConnector(verify_ssl=False)
+    aiohttp.request('get', url, connector=connector)
+    
+    aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False))
+
+for requests:
+
+    session.post(url, verify=False)
+        verify:
+            True
+            False
+            Path to a CA_BUNDLE file for Requests to use to validate the certificates.

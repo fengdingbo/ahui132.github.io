@@ -6,6 +6,9 @@ description:
 ---
 # Preface
 
+    re.compile(pattern, [,modifier]).match(str)
+    re.match(pattern, str[, modifier])
+
 # 正则语法
 
 ## regex string
@@ -16,7 +19,7 @@ description:
 ## 分组:
 
 	>>> import re
-	>>> m = re.match(r'^(\d{3})\-(\d{3,8})', '010-12345')
+	>>> m = re.match(r'(\d{3})\-(\d{3,8})', '010-12345')
 	<_sre.SRE_Match object; span=(0, 9), match='010-12345'>
 
 	>>> m.group()
@@ -27,6 +30,8 @@ description:
 	('010', '12345')
 
 ## 命名分组
+
+    (?P<name>pattern)
 
 	string = 'Hello foobar'
 	pattern = re.search(r'(?P<fstar>f.*)(?P<bstar>b.*)', string)
@@ -82,9 +87,19 @@ description:
 	>>> re_telephone.match('010-8086').groups()
 	('010', '8086')
 
+### modifier
 compile with modifier:
 
 	re.compile(r'.*', re.S) # re.S == re.DOTALL
+    re.IGNORECASE
+
+## sub
+
+    re.match('test', 'TeSt', re.IGNORECASE)
+    re.search('test', 'TeSt', re.IGNORECASE)
+        str.find('tt')
+    re.sub('test', 'xxxx', 'Testing', flags=re.IGNORECASE)
+        str.replace(needle, word, 1);
 
 ## search
 
@@ -92,6 +107,7 @@ compile with modifier:
 	>>> pattern.search(" dog")     # Match at index 1
 	<_sre.SRE_Match object; span=(1, 2), match='d'>
 	>>> pattern.search("dog", 2)  # No match; search doesn't include the "d"
+    None
 
 ### search info
 
@@ -103,8 +119,8 @@ If you want to locate a match anywhere in string, use search() .
 
 ## match fullmatch
 
-	match() ^pattern
-	fullmatch() ^pattern$
+	re.match() ^pattern
+	re.fullmatch() ^pattern$
 
 match()方法判断是否匹配，如果匹配成功，返回一个Match对象，否则返回None。
 

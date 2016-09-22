@@ -30,7 +30,7 @@ charles 需要在`Proxy`-`Proxy Settings - SSl` 中设置 `Enable SSL`, 且选�
 ## 给客户端装charles CA证书
 http://www.charlesproxy.com/documentation/using-charles/ssl-certificates/
 
-对于MAC OSX: "SSL Proxying > Install Charles Root Certificate".
+对于MAC OSX: "Help > SSL Proxying > Install Charles Root Certificate".
 IOS: 	browse to http://www.charlesproxy.com/getssl.
 CHROME: "SSL Proxying > Save Charles Root Certificate"
 JAVA:
@@ -41,13 +41,26 @@ JAVA:
 		#(changeit is the default password on the cacerts file)
 	Then try: keytool -list -keystore JAVA_HOME/jre/lib/security/cacerts -storepass changeit
 
+### trust certificate
+Key chains:
+
+    Category: Cetificates
+    KeyChains:
+        login: GoAgentCA;
+        system: GoAgentCA; Charles Proxy SSL Proxying
+
+
+## enable ssl parse
+Click:
+    Proxy -> SSL Proxying Setting ->
+        select: enable SSL Proxing
+        add:    *.443 or domain:443
 
 # cracker
 Via github or google , search `charles.jar` for cracker, then:
 
 	cp charles.jar ~/Application/Charles.app/Contents/Java/charles.jar
 	curl -Lv "https://github.com/100apps/charles-hacking/blob/master/charles.jar?raw=true" -o /Applications/Charles.app/Contents/Java/charles.jar
-
 
 # preference
 ## View

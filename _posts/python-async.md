@@ -161,7 +161,13 @@ asyncio的编程模型就是一个消息循环。我们从asyncio模块中直接
 
 可见3个连接由一个线程通过coroutine并发完成。
 
-## async/await
+## await
+await 其实是针对异步的yield, 行为规则有点像yield , 但是:
+
+1. v = await f(); v 的值是f() 中return 的值
+2. await 遇到f() 会执行它, 在f() 内部遇到await sub_f() 会继续执行(除非遇到sleep/io 才pending); 如果有多个await sub_func() 也会顺次执行 ;
+3. loop 会检查pending 的task, 以便重新开始执行
+
 用asyncio 提供的`@asyncio.coroutine` 可以把一个generator标记为coroutine类型，然后在coroutine内部用yield from调用另一个coroutine实现异步操作。
 
 为了简化并更好地标识异步IO，从Python 3.5开始引入了新的语法async和await，可以让coroutine的代码更简洁易读。
@@ -482,7 +488,7 @@ logging system like `logging.config.fileConfig` may suppresses the output of the
 
     done, pending = asyncio.get_event_loop().run_until_complete(asyncio.wait([sync(), sync()])) # terminated here
     for task in done:
-         task.result()  # raise the exception
+         task.result()  # raise the exception, 如果没有exception, task = return value
 
 vim /usr/local/Cellar/python3/3.5.1/Frameworks/Python.framework/Versions/3.5/lib/python3.5/asyncio/tasks.py +313
 

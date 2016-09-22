@@ -70,7 +70,7 @@ headers:`man ls`
 
 mac:
 
-		-M Show threads
+	-M Show threads
 
 ## filter
 
@@ -120,7 +120,7 @@ example
 #### specify cmdlist
 
 	-C cmdlist      Select by command name.
-									This selects the processes whose executable name is given in cmdlist.
+		This selects the processes whose executable name is given in cmdlist.
 
 Example
 

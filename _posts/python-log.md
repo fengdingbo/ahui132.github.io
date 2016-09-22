@@ -3,12 +3,15 @@
 # logging
 logging，和assert比，logging不会抛出错误，而且可以输出到文件：
 
-	import logging
+    import logging
 	logging.basicConfig(filename='example.log',level=logging.DEBUG)
-
-	logging.info('n = %d' % n)
-    # 捕捉异常并使用 traceback 记录它
-    logger.exception(msg, _args)，它等价于 logger.error(msg, exc_info=True, _args)。
+    logger = logging.getLogger(__name__)
+    try:
+        logging.info('n = %d' % n)
+        # 捕捉异常并使用 traceback 记录它
+    except Exception as e:
+        logger.exception('Oops!');
+        logger.exception(msg, _args)，它等价于 logger.error(msg, exc_info=True, _args)。
 
 logging 允许你指定记录信息的级别，有debug，info，warning，error等几个级别，当我们指定level=INFO时，logging.debug就不起作用了。
 

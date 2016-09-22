@@ -89,6 +89,11 @@ like list
 	'hilo' in 'hilojack'
 	str.replace(needle, word, 1); //replace the first needle with word
 
+### endswith
+
+    'abc'.endswith('bc')
+    'abc'.endswith(('bd', 'bc')) # tuple only
+
 ### find
 
     str.find(substr, beg=0, end=len(string))

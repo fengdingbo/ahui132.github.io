@@ -152,7 +152,8 @@ True
 
 # Dict
 
-	dic = {'x': 1, 'y': 2, 2:100}
+    key='city'
+	dic = {'x': 1, 'y': 2, 2:100, key:'bj'}
 	del dict['x']
 	dict.setdefault(1, 123)
 
@@ -191,9 +192,22 @@ from collections import defaultdict, namedtuple
 d = collections.defaultdict(list)
 d['miss_key'] = 'hi'
 d['list_key'].append(1);
+-------
+defaultdict(<class 'list'>, {'list_key': [1], 'miss_key': 'hi'})
 ```
 
-## has_key
+## check
+
+### is empty
+
+    >>> dct = {}
+    >>> bool(dct)
+    False
+    >>> not dct
+    >>> if dct: ..
+
+
+### has_key
 
 	if key in dict:
 
@@ -201,7 +215,7 @@ d['list_key'].append(1);
 	if hasattr(obj, 'attribute'):
 		# obj.attr_name exists.
 
-## has_value
+### has_value
 
     'one' in d.values()
 

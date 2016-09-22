@@ -25,3 +25,7 @@ http://gold.xitu.io/entry/55feef5260b2780e174c9ed9
 
 # 求打赏(+支付宝)
 http://www.aimaoji.com/taobao-weixin-payment.html
+
+# mina
+http://wxopen.notedown.cn/framework/MINA.html?t=1474537653533
+MINA(MINA IS NOT APP) 是在微信中开发小程序的框架。
