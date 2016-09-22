@@ -41,7 +41,7 @@ setuptools 与 disutils
 		description = "This is a filset Package",
 		license = "GPL",
 		keywords = "fileset",
-		url = "http://github.com/hilojack/",   # project home page, if any
+		url = "http://github.com/ahui132/",   # project home page, if any
 		# could also include long_description, download_url, classifiers, etc.
 	)
 

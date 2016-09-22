@@ -415,7 +415,7 @@ yar 是基于http 的(http 传输头部有点浪费):
 
 
 这里有一个对应的yar client for js:
-https://github.com/hilojack/yar-javascript-client
+https://github.com/ahui132/yar-javascript-client
 
 > Multiple transfer protocols supported (http implemented, tcp/unix will be supported later)
 > Multiple data packager supported (php, json, msgpack built-in)

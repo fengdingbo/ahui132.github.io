@@ -50,7 +50,7 @@ mac 的具体应用场景：给如下的url 加一个md5 签名
 	Url: http://hilojack.com?redirect=wiki.hilojack.com\x00\x00\x00&redirect=forge.hilojack.com
 	New Signature: 0e41270260895979317fff3898ab85668953aab2
 
-> md5 Implemention in php: http://github.com/hilojack/php-lib/hash/md5.php
+> md5 Implemention in php: http://github.com/ahui132/php-lib/hash/md5.php
 
 因为这种攻击只能用于添加扩展字符的场景，比如上例的增加新的query, 还比如下例的攻击w3c 的子资源完整性(Subresource Integrity, supported by chrome and firefox in 2015)
 

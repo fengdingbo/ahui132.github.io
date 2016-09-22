@@ -118,7 +118,7 @@ https://www.v2ex.com/t/97626
 Install:
 http://www.jianshu.com/p/08ba65d1f91a
 or
-https://github.com/hilojack/php-lib/blob/master/app/ss.sh
+https://github.com/ahui132/php-lib/blob/master/app/ss.sh
 
 Client:
 https://github.com/shadowsocks/shadowsocks-gui

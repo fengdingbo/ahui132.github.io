@@ -322,7 +322,7 @@ simpleXML
 # network
 
 ## curl
-Refer to [php-curl](https://github.com/hilojack/php-lib)
+Refer to [php-curl](https://github.com/ahui132/php-lib)
 
 ## headers
 

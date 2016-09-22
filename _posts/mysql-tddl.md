@@ -59,4 +59,4 @@ Twitter在把存储系统从MySQL迁移到Cassandra的过程中由于Cassandra�
 优点：高性能，低延迟；独立的应用；按时间有序。
 缺点：需要独立的开发和部署。没有单点问题
 
-php 实现: https://github.com/hilojack/php-lib/blob/master/id/snowflake.php
+php 实现: https://github.com/ahui132/php-lib/blob/master/id/snowflake.php
