@@ -29,3 +29,6 @@ http://www.aimaoji.com/taobao-weixin-payment.html
 # mina
 http://wxopen.notedown.cn/framework/MINA.html?t=1474537653533
 MINA(MINA IS NOT APP) 是在微信中开发小程序的框架。
+
+# Wxbot
+https://github.com/wechaty/wechaty

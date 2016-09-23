@@ -150,7 +150,11 @@ Via RegexIterator on RecursiveIteratorIterator(filter key(filename) with Regex):
 
 # Upload File
 
-	move_uploaded_file($_FILES['userfile']['tmp_name'], $dir.$file))
+    'a' => '@a.png'
+	move_uploaded_file($_FILES['a']['tmp_name'], $dir.$file))
+
+    'a[0]' => '@a.png'
+	move_uploaded_file($_FILES['a']['tmp_name'][0], $dir.$file))
 
 # File Operation
 

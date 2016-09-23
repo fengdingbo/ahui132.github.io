@@ -7,4 +7,7 @@ https://segmentfault.com/a/1190000005932457?utm_source=weekly&utm_medium=email&u
 
 ## Weex, vue-native
 与react-native 区别
-上层js开发框架换成了vue, 通信还是走的bridge，js引擎从jscore换成了v8。用了vue，界面开发不是jsx了。
+1. 上层js开发框架换成了vue,
+2. 通信还是走的bridge，
+3. js引擎从jscore换成了v8
+4. 用了vue，界面开发不是jsx了。
