@@ -340,8 +340,11 @@ set和dict的唯一区别仅在于没有存储对应的value，但是，set的�
 	tuple = (1,2)
 	tuple +=(3,)
 
+	sorted(['a', 'z', 'g'])
+        [a, g, z]
 	sorted(['a', 'z', 'g']).pop(-1); # last
 	sorted(['a', 'z', 'g']).pop(); # last
+        z
 	sorted('azg']).pop(0); # first
 
 > For more details, refer to `pydoc list`
@@ -419,6 +422,7 @@ exclude end
 
 	list[start:end:step]
 	list[0:3]
+	   list[:3]
 	list[:-1]
 	list[::-1] # reverse
 	list[::5]
@@ -446,6 +450,10 @@ exclude end
 	.count(value) -> integer -- return number of occurrences of value
 	.reverse() -> reverse *IN PLACE*
 	.sort(cmp=None, key=None, reverse=False) -- stable sort *IN PLACE*;
+	sorted(l, cmp=None, key=None, reverse=False) -- stable sort *Not IN PLACE*;
+
+    >>> d=['a','C', 'A','z']; d.sort(key=str.lower))
+    ['a', 'A', 'C', 'z']
 
 remove and insert(in place)
 

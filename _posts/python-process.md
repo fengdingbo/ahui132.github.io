@@ -115,9 +115,18 @@ multiprocessing.Pool(4) 比fork 简单
 ## map
 map 并行处理10 个任务
 
-    >>> import multiprocessing
-    >>> import math
-    >>> list(multiprocessing.Pool(processes=4).map(math.exp,range(1,11)))
+    import multiprocessing
+    import math
+    multiprocessing.Pool(processes=4).map(math.exp,range(1,11)) #type list
+    multiprocessing.Pool(4).map(math.exp,range(1,11), chunksize=2)
+
+### chunksize
+
+   chunksize=1
+     The portion of the input data to hand to each worker.  This
+     can be used to tune performance during the mapping phase.
+   """
+   multiprocessing.Pool(4).map(map_func, iterable_inputs, chunksize=chunksize)
 
 # shell 子进程
 很多时候，子进程并不是自身，而是一个外部进程。我们创建了子进程后，还需要控制子进程的输入和输出。

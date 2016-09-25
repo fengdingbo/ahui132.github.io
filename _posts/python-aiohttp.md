@@ -16,13 +16,16 @@ Your dictionary of data will automatically be form-encoded when the request is m
 To upload Multipart-encoded files:
 
     url = 'http://httpbin.org/post'
-    files = {'file1': open('report.xls', 'rb'), 'key':'value'}
+    files = {'file1': open('report.xls', 'rb'), 'key':'value', 'file2':b'binary_file'}
     await session.post(url, data=files)
 
 You can set the filename, content_type explicitly:
 
     url = 'http://httpbin.org/post'
-    data = FormData()
+    data = aiohttp.helpers.FormData(
+        {'key1':'str1', 'key2':'str2'} # not allow int
+    )
+    data.add_fields([('key1', 'val1'), {'key2':'val2', 'key3':'val3'}])
     data.add_field('file',
                    open('report.xls', 'rb'),
                    filename='report.xls',
@@ -123,7 +126,7 @@ These cookies may be iterated over:
 Proxy support
 
     async with aiohttp.ClientSession() as session:
-        async with session.get("http://python.org", proxy="http://some.proxy.com") as resp:
+        async with session.get("http://python.org", proxy="http://some.proxy.com:8888") as resp:
             print(resp.status)
 
 it also supports proxy authorization:
@@ -135,7 +138,7 @@ it also supports proxy authorization:
 
 Authentication credentials can be passed in proxy URL:
 
-    session.get("http://python.org", proxy="http://user:pass@some.proxy.com"
+    session.get("http://python.org", proxy="http://user:pass@some.proxy.com:8888"
 
 ## ssl
 for aiohttp:

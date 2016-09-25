@@ -185,6 +185,15 @@ Python内建了map-reduce/filter/all/any 实现函数式编程
 	# map 针对多个序列
 	print map(lambda x, y: x + y, [1, 2, 3], [4, 5, 6])
 
+	# map 字典, 字典本身是对key 迭代
+    >>> for i in map(lambda x, y: x + y, {'a':1, 'b':2}, {'c':3}): print(i)
+    ...
+    ac
+    >>> for i in map(lambda x, y: x + y, {'a':1, 'b':2}, {'c':3, 'd':4}): print(i)
+    ...
+    ac
+    bd
+
 map()传入的第一个参数是f，即函数对象本身。由于结果r是一个Iterator，Iterator是惰性序列，因此通过list()函数让它把整个序列都计算出来并返回一个list。
 
 	>>> list(map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
