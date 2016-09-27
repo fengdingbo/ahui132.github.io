@@ -36,6 +36,16 @@ Python的hashlib提供了常见的摘要算法，如MD5，SHA1等等。
 	>>> base64.urlsafe_b64decode('abcd--__')
 	b'i\xb7\x1d\xfb\xef\xff'
 
+## pickle
+    import pickle
+    
+Functions:
+
+    dump(object, file)
+    dumps(object) -> string
+    load(file) -> object
+    loads(string) -> object
+
 # md5
 我们以常见的摘要算法MD5为例，计算出一个字符串的MD5值：
 
@@ -71,4 +81,3 @@ SHA1的结果是160 bit字节，通常用一个40位的16进制字符串表示�
 比SHA1更安全的算法是SHA256和SHA512，不过越安全的算法不仅越慢，而且摘要长度更长。
 
 有没有可能两个不同的数据通过某个摘要算法得到了相同的摘要？完全有可能，因为任何摘要算法都是把无限多的数据集合映射到一个有限的集合中。这种情况称为碰撞，比如Bob试图根据你的摘要反推出一篇文章'how to learn hashlib in python - by Bob'，并且这篇文章的摘要恰好和你的文章完全一致，这种情况也并非不可能出现，但是非常非常困难。
-

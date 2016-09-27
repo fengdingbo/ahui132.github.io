@@ -89,7 +89,7 @@ To send your own cookies to the server, you can use the cookies parameter of Cli
 
     url = 'http://httpbin.org/cookies'
     cookies = {'cookies_are': 'working'}
-    async with ClientSession(cookies=cookies) as session:
+    async with aiohttp.ClientSession(cookies=cookies) as session:
         async with session.get(url) as resp:
             assert await resp.json() == { "cookies": {"cookies_are": "working"}}
 
@@ -97,7 +97,7 @@ To send your own cookies to the server, you can use the cookies parameter of Cli
 vim /usr/local/lib/python3.5/site-packages/aiohttp/cookiejar.py +80
 
     session.cookie_jar.update_cookies(cookies, response_url=None)
-    session.cookie_jar.update_cookies({'a':'bbbbbb'});
+    session.cookie_jar.update_cookies({'a':'bbbbbb'}, response_url="http://qq.com");
         Update cookies returned by server in Set-Cookie header.
         cookies – a collections.abc.Mapping (e.g. dict, SimpleCookie) or iterable of pairs with cookies returned by server’s response.
 
@@ -114,6 +114,7 @@ These cookies may be iterated over:
 
     for cookie in session.cookie_jar:
         print(cookie.key)
+        print(cookie.value)
         print(cookie["domain"])
 
 ## response

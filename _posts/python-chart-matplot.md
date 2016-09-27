@@ -227,6 +227,7 @@ doc for AutoDateFormatter
 
     from pylab import *
     import matplotlib.pyplot as plt
+    import matplotlib.dates as mdates
     import datetime
 
     d = datetime.timedelta(minutes=2)
@@ -241,15 +242,15 @@ doc for AutoDateFormatter
     # plt.fill_between; # ok
     ax.fill_between(X, 0, Y, color='#4695da', alpha=0.5)
     ax.plot(X, Y)
+    print(X,Y)
 
     xax = ax.get_xaxis() # get the x-axis
     adf = xax.get_major_formatter() # the the auto-formatter
-
-
-    adf.scaled[1./24] = '%H:%M'  # set the < 1d scale to H:M
-    adf.scaled[1.0] = '%Y-%m-%d' # set the > 1d < 1m scale to Y-m-d
-    adf.scaled[30.] = '%Y-%m' # set the > 1m < 1Y scale to Y-m
-    adf.scaled[365.] = '%Y' # set the > 1y scale to Y
+    xax.set_major_formatter(mdates.DateFormatter('%H:%M'))
+    # adf.scaled[1./24] = '%H:%M'  # set the < 1d scale to H:M
+    # adf.scaled[1.0] = '%Y-%m-%d' # set the > 1d < 1m scale to Y-m-d
+    # adf.scaled[30.] = '%Y-%m' # set the > 1m < 1Y scale to Y-m
+    # adf.scaled[365.] = '%Y' # set the > 1y scale to Y
 
     plt.draw()
     show()

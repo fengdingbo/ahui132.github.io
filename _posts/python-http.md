@@ -316,6 +316,7 @@ Use a session object instead, it'll persist cookies and send them back to the se
 [Cookie utility]: http://docs.python-requests.org/zh_CN/latest/api.html#api-cookies
 
 ## Session Cookie
+python 2/3:
 
 	from six.moves import http_cookiejar as cookielib
 
@@ -324,3 +325,22 @@ Use a session object instead, it'll persist cookies and send them back to the se
 
 	session.get(url)...
 	session.cookies.save(COOKIE_FILE, ignore_discard=True, ignore_expires=True)
+
+iterate
+
+    for cookie in session.cookies:
+        print(cookie.name, cookie.value, cookie.domain)
+
+other: save cookie
+
+    import requests, requests.utils, pickle
+    session = requests.session()
+    # Make some calls
+    with open('somefile', 'w') as f:
+        pickle.dump(requests.utils.dict_from_cookiejar(session.cookies), f)
+
+Loading is then :
+
+    with open('somefile') as f:
+        cookies = requests.utils.cookiejar_from_dict(pickle.load(f))
+        session = requests.session(cookies=cookies)

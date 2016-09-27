@@ -363,6 +363,12 @@ The difference between list and tuple:
 
 	del tuple[0] error
 
+## list copy
+
+    l=[1,2,3]
+    l.copy()
+    dic.copy()
+
 ## list merge
 
 	[1,2] + [2,3,]
