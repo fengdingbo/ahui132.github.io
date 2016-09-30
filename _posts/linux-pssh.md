@@ -8,7 +8,12 @@ description:
 在工作中，我们可能会有同步操作多台linux 服务器的需要。过去的做法是用for 循环执行: `ssh $ip < work.sh $1 $2 &`
 
 其实，我们还可以借助以下命令(前提是已经建立信任):
-pssh pdsh clusterssh clusterit mussh
+
+    pssh pdsh clusterssh clusterit mussh
+
+# Gravitational Teleport
+Gravitational Teleport
+Modern SSH server for teams managing distributed infrastructure
 
 # pssh
 pssh 与mpssh, 都是多主机并行运行命令

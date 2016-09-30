@@ -95,10 +95,18 @@ Use `git svn rebase`, do not not `git pull`!
 `git svn branch [分支名] ：` like ` svn copy trunk branches/dev`
 
     $ git svn branch dev
+    $ svn copy https://xxx.com/svn/project/trunk  https://xxx.com/svn/project/trunk/branches/dev
+
+### -n dry-run
+
+    $ git svn branch -n -m "开发分支" dev
+    Copying https://xxx.com/svn/project/trunk at r584 to https://xxx.com/svn/project/trunk/branches/dev..
 
 ## switch branch
 
-    git branch dev [remotes/dev]
+    git branch dev [remotes/origin/dev]
+    git checkout -b mybranch-svn remotes/origin/mybranch
+
 
 # cmd
 类似 git svn log 对 git log 的模拟，svn annotate 的等效命令是 git svn blame [文件名]。其输出如下

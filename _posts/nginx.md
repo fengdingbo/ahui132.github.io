@@ -28,6 +28,10 @@ nginx 每进来一个request，会有一个worker进程去处理。但不是全�
 		worker_connections 51200; #每个进程最大连接数
 	}
 
+# nginx command
+
+    nginx -t
+
 # Config
 nginx 的配置文件是分层的，比如全局配置包含 events/http , http 又包含数个server
 
@@ -449,6 +453,7 @@ Equal to
 Static Example:
 
 
+    $request_filename=/Users/hilojack/www/lumen/public/a/robots.txt
 	if (-f $request_filename){
 		rewrite ^/(.*) /static.php/$1 break;
 	}
@@ -1066,11 +1071,10 @@ Example:
 Note: Nginx has the ability to decode URIs in real time. For example, in order to match “/app/%20/images” you may use “/app/ /images” to determine the location.
 
 ##### with literal strings
-
 With solid literal strings
 
-	# matches only the "/literal$" query, "$" is a literal char.
-	location = "^/literal$$" { }
+	# matches only the "^/literal$" query, "^$" is literal char.
+	location = "^/literal$" { }
 
 With temporary literal strings(`^~` 可忽略)
 
