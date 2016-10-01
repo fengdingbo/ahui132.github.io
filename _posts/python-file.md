@@ -215,8 +215,8 @@ Example:
 
 	fp.tell(...)
 		tell() -> current file position, an integer (may be a long integer).
-	seek(...)
-		seek(offset[, whence]) -> None.  Move to new file position.
+	.seek(...)
+		.seek(offset[, whence]) -> None.  Move to new file position.
 		Optional argument whence defaults to:
 			0 (offset from start of file, offset should be >= 0);
 			1 (move relative to current position, positive or negative),

@@ -36,15 +36,6 @@ Python的hashlib提供了常见的摘要算法，如MD5，SHA1等等。
 	>>> base64.urlsafe_b64decode('abcd--__')
 	b'i\xb7\x1d\xfb\xef\xff'
 
-## pickle
-    import pickle
-    
-Functions:
-
-    dump(object, file)
-    dumps(object) -> string
-    load(file) -> object
-    loads(string) -> object
 
 # md5
 我们以常见的摘要算法MD5为例，计算出一个字符串的MD5值：
