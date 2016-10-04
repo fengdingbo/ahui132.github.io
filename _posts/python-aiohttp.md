@@ -109,6 +109,12 @@ vim /usr/local/lib/python3.5/site-packages/aiohttp/cookiejar.py +80
     session.cookie_jar.__dict__['_cookies']['qq.com']['a'].key
         a
 
+Note:
+
+    session.cookie_jar.update_cookies({'a':'bbbbbb'}, response_url="http://qq.com");# support qq.com only
+    session.cookie_jar.update_cookies({'a':'bbbbbb'}, response_url="http://.qq.com");# support *.qq.com
+    session.cookie_jar.update_cookies({'a':'bbbbbb'}, response_url="qq.com");       # support *.qq.com
+
 ## iterate
 These cookies may be iterated over:
 

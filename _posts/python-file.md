@@ -1,3 +1,37 @@
+# instpect
+
+    print(__file__)
+    print(module.__file__)
+
+inspect
+
+    import inspect
+
+    def PrintFrame():
+      callerframerecord = inspect.stack()[1]    # 0 represents this line
+                                                # 1 represents line at caller
+      frame = callerframerecord[0]
+      info = inspect.getframeinfo(frame)
+      print info.filename                       # __FILE__     -> Test.py
+      print info.function                       # __FUNCTION__ -> Main
+      print info.lineno                         # __LINE__     -> 13
+
+    def Main():
+      PrintFrame()                              # for this line
+
+or:
+
+    import inspect
+    frame = inspect.currentframe()
+    # __FILE__
+    frame.f_code.co_filename
+    frame.f_lineno
+
+## inspect class
+
+    import inspect
+    inspect.getfile(C.__class__)
+
 # Directory
 
 ## file property

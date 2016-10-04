@@ -40,7 +40,10 @@ Here are two ways to tell a slave it will be "slaveOf" a given master:
 
 ## disable replication / upon failing master, promote a slave
 You may want to promote a slave to be the new master.
-You should first (try to) disable replication of the offline master first, then, in case you have several slaves, enable replication of the remaining slaves to the new master:
+You should:
+
+1. first (try to) disable replication of the offline master first,
+2. then, in case you have several slaves, enable replication of the remaining slaves to the new master:
 
     slave1jedis.slaveofNoOne();
     slave2jedis.slaveof("192.168.1.36", 6379);

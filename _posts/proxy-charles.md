@@ -16,6 +16,17 @@ description:
 	Shift+Cmd+w map rule
 	Shift+Cmd+M map remote
 
+## Rewrite
+![proxy-charles-2.png](/img/proxy-charles-2.png)
+
+    host: 不支持wildcard, 只支持regex/plain
+        .*\.ahui132.com -> ahui132.com
+    modify query:
+        name: prefix*, value: value_prefix*
+        ->
+        name: other_key, value: other_value
+
+
 # SSL
 
 ## 抓取https 数据
