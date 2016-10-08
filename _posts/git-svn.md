@@ -107,7 +107,6 @@ Use `git svn rebase`, do not not `git pull`!
     git branch dev [remotes/origin/dev]
     git checkout -b mybranch-svn remotes/origin/mybranch
 
-
 # cmd
 类似 git svn log 对 git log 的模拟，svn annotate 的等效命令是 git svn blame [文件名]。其输出如下
 

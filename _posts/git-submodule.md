@@ -56,8 +56,11 @@ description:
 
 	$ git submodule init
         Submodule '<sub_path>' registered for path '<sub_path>'
+        initialize the submodules recorded in the index:
+            by copying submodule names and urls from .gitmodules to .git/config.
 	$ git submodule update
          clone into '<sub_path>'
+         Update the registered submodules to match what the superproject
 
 更简单的方式在克隆时：
 

@@ -47,6 +47,10 @@ curl 默认发送post数据是: application/x-www.form-urlencoded(不同于在fo
 
 # proxy
 
+## interface
+
+    curl --interface eth0
+
 ## via socks5
 Socks5 takes precedence over -x:
 
