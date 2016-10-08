@@ -27,6 +27,14 @@ description:
     ifstat: 按设备查看流量
     ethtool: 诊断工具
     其他: dstat, slurm, nload, bmon
+## ss
+> for linux
+
+    $ netstat -lntp
+    $ ss -plat
+    ....
+    $ ss -ln
+    RecvQ SendQ LocalAddress:port
 
 # monitor
 http://www.binarytides.com/linux-commands-monitor-network/
