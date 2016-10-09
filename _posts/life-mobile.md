@@ -35,7 +35,13 @@ description:
 [mzone](http://service.bj.10086.cn/poffice/package/showpackage.action?from=bj&PACKAGECODE=MZONEJCTC&isCheck=1&smartID=5122944242)
 闲:21:00~次日9:00	忙:9:00~21:00
 
-### 上网套餐(38元)
+### 漫游套餐
+2016-10-9
+38元档
+1. 0.19Yuan/min
+2. 300M+50分国内+磅150分钟长市(送12个月)
+
+### 动感上网套餐(38元)
 
 	费用:	38元/月，380元/年
 	本市主叫:	0.12元/分钟 免费送80分钟本地呼叫
