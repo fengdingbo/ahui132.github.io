@@ -6,6 +6,18 @@ description:
 ---
 # Preface
 
+# range:
+
+header 头
+
+    Range: bytes=0-1024
+
+响应:
+
+    http_code=206 Partial Content
+    Content-Range:bytes 0-1024/11111111
+    Range: bytes
+
 # http
 
 ## http 1.0
