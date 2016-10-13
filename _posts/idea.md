@@ -50,7 +50,12 @@ description:
 2. 读书时要出声音
 3. 一次读完一段或几段: 不要再重读(除非错了)
 
-# 改进百度五笔for mac pass
+# Push
+To: weibo/zhihu-live/weixin
+
+# pass
+## 改进百度五笔for mac:
+增加im-status 探测
 
 # 大数据
 

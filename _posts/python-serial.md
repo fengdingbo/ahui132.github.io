@@ -23,7 +23,7 @@ There are currently 4 different protocols which can be used for pickling.
 3. negative version is for select highest version
 
 ## Data stream format
-Functions:
+pickle Functions:
 
     dump(object, file[,protocol])
         file: open('a.bin','wb'), StringIO, other.
