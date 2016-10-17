@@ -82,6 +82,8 @@ example:
 	os.mkdir(dir,mode=511)
 		os.makedirs(newDir/dir);//recursive
 	os.rmdir('/Users/michael/testdir')
+        import shutil
+        shutil.rmtree('/path/to/your/dir/'); # recursive
 
 ### rename file:
 
@@ -111,6 +113,15 @@ shutil模块提供了copyfile()的函数，你还可以在shutil模块中找到�
 
 	os.mkfifo(path, mode=438, *, dir_fd=None)
         Create a "fifo" (a POSIX named pipe).
+
+## tmpfile
+
+    fp = tempfile.TemporaryFile();
+    fp.close()
+
+    > tempfile.NamedTemporaryFile().name
+    /var/folders/73/7vxr7kzs09ndh3kwzw9zpdj80000gn/T/tmpykjnhjnj
+    with tempfile.TemporaryDirectory() as tmpdirname:
 
 ## listdir
 

@@ -31,6 +31,44 @@ If the proxy server requires a username and password then add these to the URL. 
 Comparison_of_proxifiers:
 https://en.wikipedia.org/wiki/Comparison_of_proxifiers
 
+### proxychains with shadowsocks
+> https://github.com/shadowsocks/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools
+
+proxychains 调用的好像是Privoxy, 在mac 需要:
+
+1. csrutil enable --without debug
+2. cp /usr/bin/xx /usr/local/bin
+
+On Mac OS X:
+
+	brew install proxychains-ng
+
+Make a config file at `~/.proxychains/proxychains.conf` with content:
+
+	strict_chain
+	proxy_dns
+	remote_dns_subnet 224
+	tcp_read_time_out 15000
+	tcp_connect_time_out 8000
+	localnet 127.0.0.0/255.0.0.0
+	quiet_mode
+
+	[ProxyList]
+	# type host port [user pass]
+	socks5  127.0.0.1 1080
+
+Then run command with proxychains. Examples:
+
+	proxychains4 curl https://www.twitter.com/
+	proxychains4 git push origin master
+    proxychains4 curl 'http://1212.ip138.com/ic.asp'
+
+Or just proxify bash:
+
+	proxychains4 bash
+	curl https://www.twitter.com/
+	git push origin master
+
 ### Proximac
 Proximac is an command-line alternative to Proxifier.
 1. It can fowward any App's traffic to a certain Socks5 proxy
@@ -90,44 +128,6 @@ brew install tsocks: https://github.com/Anakros/homebrew-tsocks
 使用：
 
 	$ tsocks wget ....
-
-### proxychains with shadowsocks
-> https://github.com/shadowsocks/shadowsocks/wiki/Using-Shadowsocks-with-Command-Line-Tools
-
-proxychains 调用的好像是Privoxy, 在mac 需要:
-
-1. csrutil enable --without debug
-2. cp /usr/bin/xx /usr/local/bin
-
-On Mac OS X:
-
-	brew install proxychains-ng
-
-Make a config file at `~/.proxychains/proxychains.conf` with content:
-
-	strict_chain
-	proxy_dns
-	remote_dns_subnet 224
-	tcp_read_time_out 15000
-	tcp_connect_time_out 8000
-	localnet 127.0.0.0/255.0.0.0
-	quiet_mode
-
-	[ProxyList]
-	# type host port [user pass]
-	socks5  127.0.0.1 1080
-
-Then run command with proxychains. Examples:
-
-	proxychains4 curl https://www.twitter.com/
-	proxychains4 git push origin master
-    proxychains4 curl 'http://1212.ip138.com/ic.asp'
-
-Or just proxify bash:
-
-	proxychains4 bash
-	curl https://www.twitter.com/
-	git push origin master
 
 ### Privoxy
 Privoxy 能
