@@ -123,6 +123,8 @@ shutil模块提供了copyfile()的函数，你还可以在shutil模块中找到�
     /var/folders/73/7vxr7kzs09ndh3kwzw9zpdj80000gn/T/tmpykjnhjnj
     with tempfile.TemporaryDirectory() as tmpdirname:
 
+    > tmpdir = tempfile.mkdtemp(); # string
+
 ## listdir
 
 ### via os.listdir

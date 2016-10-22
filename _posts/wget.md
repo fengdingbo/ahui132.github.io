@@ -27,6 +27,11 @@ description:
 	curl -D- -b a.txt -c a.txt url.com
 	curl -D- -b a.txt -c - url.com #for debug
 
+# ftp
+
+    wget -r --user="user@login" --password="password" ftp://server.com/
+    wget -r ftp://user:pass@server.com/
+
 # ipv6
 
 	wget -4 url

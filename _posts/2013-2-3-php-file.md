@@ -102,6 +102,7 @@ dir:
 
     mkdir ( string $pathname [, int $mode [, bool $recursive [, resource $context ]]] )
     rmdir($pathname);必须为空
+    rename($old, $new)
 
 ### Foreach Directory
 Via shell for:
