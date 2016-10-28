@@ -2,7 +2,7 @@
 layout: page
 title:	latex 数学公式
 category: blog
-description: 
+description:
 ---
 # Preface
 [latex 数学公式](http://zh.wikipedia.org/wiki/Help:%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F)
@@ -29,16 +29,24 @@ BasicTeX 和 MacTeX 类似，也是对 TeX Live 的封装。
 ## MathJax
 这是一个js 库. 用法如`$ a^2=b$`
 
+支持markdown 的库:
+1. markx: Markx, an open source markdown+MathJax editor heroku app using StackExchange’s PageDown library and optional pandoc integration. https://github.com/jgallen23/markx
+2. StackEdit, a versatile open source markdown+MathJax editor webapp and blogging client using StackExchange’s PageDown library.
+http://docs.mathjax.org/en/latest/misc/mathjax-in-use.html
 
 # 函数、符号、及字符
+http://www.cnblogs.com/houkai/p/3399646.html
 
 ## 函数
-	\sin a \cos b \tan c	
+	\sin a
+    \sin^{2}x + \cos^{2}x = 1
+    \cos b
+    \tan c
 	O(\log n)
 
 ## 根
 
-	\sqrt{x} \sqrt[n]{x}	
+	\sqrt{x} \sqrt[n]{x}
 
 ## 上标(幂)
 	a^2
@@ -71,7 +79,7 @@ BasicTeX 和 MacTeX 类似，也是对 TeX Live 的封装。
 	//分数
 	\frac{2}{4}=0.5 2/4=0.5
 	//分数嵌套
-	\cfrac{2}{c + \cfrac{2}{d + \cfrac{2}{4}}} = a	
+	\cfrac{2}{c + \cfrac{2}{d + \cfrac{2}{4}}} = a
 	//
 	\frac{分子}{分母} 表示分数。另外，\tfrac{分子}{分母} 表示小号的分数。
 

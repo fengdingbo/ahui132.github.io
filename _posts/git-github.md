@@ -6,6 +6,12 @@ description:
 ---
 # Preface
 
+# private git
+可以多个备份嘛:
+1. coding.net
+2. gitlab
+2. bitbucket
+
 # gitlab
 
 ## install

@@ -95,7 +95,7 @@ Python内置的enumerate函数可以把一个list变成索引-元素对，这样
 
 ### while
 
-	while x<6:
+	while x < 6:
 		Statement
 
 # 三元运算符

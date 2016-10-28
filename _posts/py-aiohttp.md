@@ -133,7 +133,7 @@ These cookies may be iterated over:
 Proxy support
 
     async with aiohttp.ClientSession() as session:
-        async with session.get("http://python.org", proxy="http://some.proxy.com:8888") as resp:
+        async with session.get("http://python.org", proxy="http://127.0.0.1:8888") as resp:
             print(resp.status)
 
 it also supports proxy authorization:
@@ -150,9 +150,11 @@ Authentication credentials can be passed in proxy URL:
 ## ssl
 for aiohttp:
 
+    # for request
     connector = aiohttp.TCPConnector(verify_ssl=False)
     aiohttp.request('get', url, connector=connector)
 
+    # for session
     aiohttp.ClientSession(connector=aiohttp.TCPConnector(verify_ssl=False))
 
 for requests:

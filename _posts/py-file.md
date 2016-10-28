@@ -1,4 +1,4 @@
-# instpect
+# inspect
 
     print(__file__)
     print(module.__file__)

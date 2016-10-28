@@ -32,7 +32,8 @@ Detect Ajax：
 
 默认的`Content-Type:text/plain + POST `只会传`RAW_POST_DATA` , `application/x-www-form-urlencode` 才会传`$_POST`, `enctype="multipart/form-data"` 则包括`POST+FILES`
 
-	$GLOBALS['HTTP_RAW_POST_DATA']
+	$GLOBALS['HTTP_RAW_POST_DATA'] or $HTTP_RAW_POST_DATA
+    file_get_contents('php://input')
 
 ## ajax get post
 For html5, emulate jquery ajax
