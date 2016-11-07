@@ -35,11 +35,15 @@ http://dockone.io/article/468
 http://www.jianshu.com/p/c69deb29720d
 
 # Continuous integration(CI)
+测试
+- 代码测试: travis
+- 覆盖率测试: codecov vs Coveralls(有点老了)
+
+以php project 为例  :
+https://segmentfault.com/a/1190000005090444#articleHeader8
 
 ## webhooks & services
-
 Services / Add Packagist
-
 
 ## github ci tool
 https://github.com/integrations/feature/build

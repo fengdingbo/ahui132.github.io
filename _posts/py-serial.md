@@ -27,8 +27,13 @@ pickle Functions:
 
     dump(object, file[,protocol])
         file: open('a.bin','wb'), StringIO, other.
+        with pathlib.Path(file_path).open(mode='wb') as f:
+            pickle.dump(object, f, pickle.HIGHEST_PROTOCOL)
     dumps(object) -> string
     load(file) -> object
+        file: open('a.bin','rb'), StringIO, other.
+        with pathlib.Path(file_path).open(mode='wb') as f:
+            pickle.load(f)
     loads(string) -> object
 
 ## 12.1.4. What can be pickled and unpickled?

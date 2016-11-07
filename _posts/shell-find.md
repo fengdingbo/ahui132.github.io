@@ -86,6 +86,7 @@ For example:
 
 	#! -path exclude dir
 	find . -type f -name '*.php' ! -path "./dir1/*" ! -path "./scripts/*"
+    find . -type f ! -path '*/.svn*' ! -path '*.git*'
 	find . -type f ! -path './[.|nbproject|todo]*'
 
     ! expr1 expr2
@@ -121,6 +122,7 @@ For example:
 
     # prune multiple directories
 	find . \( -path ./dir1 -o -path ./dir2 \) -prune -o -name '*.txt' -print
+    find . -type f ! -path '*/.svn*' ! -path '*/.git*'
     # prune with not
 	find . ! \( \(-path ./dir1 -o path ./dir2 \) -prune \) -name \*.txt
 
@@ -128,6 +130,15 @@ Just specifying `-not -path` cannot stop find from descending into the skipped d
 
     "not work
 	find . ! -path './dir1/*' -name '*'
+
+## find with sed
+
+    find /home/www -type f -print0 | xargs -0 sed -i 's/subdomainA\.example\.com/subdomainB.example.com/g'
+
+-print0 (GNU find only)
+
+1. tells find to use the null character (\0) instead of whitespace as the output delimiter between pathnames found.
+2. Be safe if files can contain blanks or other special character. (the -0 argument is needed in xargs.)
 
 # match file
 Match dirname and file via `-name`
